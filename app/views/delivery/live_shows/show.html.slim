@@ -1,0 +1,41 @@
+= javascript_include_tag 'delivery/live_show'
+.page-content
+  = render "delivery/live_shows/detail"
+  .list-container
+    = render "delivery/live_shows/nav"
+    .list-content
+      .list-options.clearfix
+        .pull-left
+          .btn-group
+            a.btn.btn-small.btn-red.active.icon: i.fa.fa-plus
+            a.btn.btn-small.btn-red href="#{new_delivery_live_show_product_path(@live_show)}" 添加产品
+          .btn-group.ml-15
+            a.btn.btn-small.btn-blue.active.icon: i.fa.fa-refresh
+            a.btn.btn-small.btn-blue href="#{url_for}" 刷新         
+        .pull-right
+          select.form-control
+            = options_for_select Product.statuses_i18n.invert, params[:status]
+      = render "share/flash_messages"
+      table.table
+        thead
+          tr
+            th 产品图
+            th 名称
+            th 介绍
+            th 价格
+            th 状态
+            th 操作
+        tbody
+          - @products.each do |product|
+            tr
+              td
+                - if product.cover
+                  = image_tag product.cover.resource_url, size: '50x50'
+              td= product.name_en
+              td= product.description
+              td.price
+                i.fa.fa-dollar
+                span= product.price
+              td= status_tag(product)
+              td
+                a href="#{edit_delivery_product_path(product, live_show_id: product.live_show_id)}" 编辑

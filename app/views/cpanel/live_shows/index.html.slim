@@ -1,0 +1,37 @@
+.bs-docs-section
+  .page-header Live Show Rooms
+.main.clearfix
+  table.table.table-striped
+    thead
+      tr
+        th #
+        th subject
+        th description
+        th html url
+        th start_time 
+        th close_time
+        th closed
+        th preview image
+        th created at
+        
+        th -
+    tbody
+      - @live_shows.each do |l|
+        tr
+          td= l.id
+          td= l.subject
+          td= l.description
+          td= l.html_url
+          td= l.start_time.strftime('%F %T')
+          td= l.close_time.try(:strftime, '%F %T')
+          td= l.closed ? 'YES' : 'NO'
+          td            
+            img src="#{l.preview.file.url}" width="15%"
+          td= l.created_at.strftime('%F %T')
+          td 
+            a.ml-10 href="#{close_cpanel_live_show_path(l)}" onclick="{if(confirm('Close live show right now?')){return true;}return false;}" Close
+            a.ml-10 href="#{edit_cpanel_live_show_path(l)}" Edit
+            a.ml-10 href="#{cpanel_live_show_path(l)}" Entry
+
+
+

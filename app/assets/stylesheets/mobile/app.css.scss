@@ -1,0 +1,22 @@
+$brand-warning: #FF4600;
+$label-danger-bg: $brand-warning;
+// $input-border-focus: #ccc;
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
+@import "bootstrap";
+@import "helpers";
+@import "orders";
+@import "register";
+
+* {
+  -webkit-text-size-adjust: none;  
+}
+
+.form-control, .form-control:focus {
+  -webkit-appearance: caret;
+  // -webkit-box-shadow: none;
+  // box-shadow: none;
+  border: 1px solid $input-border;  
+}
+

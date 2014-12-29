@@ -1,0 +1,61 @@
+.products-new, .products-create, .products-edit, .products-update {
+  .photos {
+    padding-left: 0px;
+  }
+
+  .photos > ul li {
+    position: relative;
+    &:hover .btns {
+      display: inherit;
+    }
+
+    &.is-cover > .cover-icon {
+      background-image: image-url('delivery/is-cover.jpg') !important;
+      background-repeat: no-repeat;
+      background-position: 0px 0px;
+    }
+  }
+
+  .photos > ul li > .cover-icon {
+    position: absolute;
+    width: 120px;
+    height: 20px;
+    bottom: 0px;
+    left: 0px;
+  }  
+
+  .photos > ul li .btns {
+    position: absolute;
+    display: none;
+    top: 34px;
+    left: 24px;
+  }
+
+  .photos > ul li .img-thumbnail {
+    // width: 130px;
+  }
+
+  .photos .plus {
+    width: 120px;
+    height: 120px;
+    background-image: image-url('delivery/plus.jpg');
+    background-repeat: no-repeat;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .photos .plus input {
+    position: absolute;
+    top: 0;
+    right: 0; /* not left, because only the right part of the input seems to
+                 be clickable in some browser I can't remember */
+    cursor: pointer;
+    opacity: 0.0;
+    filter: alpha(opacity=0); /* and all the other old opacity stuff you
+                                 want to support */
+    font-size: 300px; /* wtf, but apparently the most reliable way to make
+                         a large part of the input clickable in most browsers */
+    height: 120px;
+    width: 120px;
+  }
+}

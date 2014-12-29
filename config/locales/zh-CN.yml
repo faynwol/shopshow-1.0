@@ -1,0 +1,97 @@
+---
+zh-CN:
+  activerecord:
+    attributes:
+      user:
+        avatar: "头像"
+        created_at: "创建于"
+        email: "邮箱"
+        name: "昵称"
+        password: "密码"
+        password_confirmation: "密码确认"
+        username: "用户名"
+      recipient:
+        name: 收件人姓名
+        region_id: 省份
+        address: 地址
+        tel: 手机
+        email: 邮箱
+        id_card_no: 身份证号码
+        id_card_pic_obverse: 身份证正面照片
+        id_card_pic_back: 身份证反面照片
+        zip_code: 邮编
+      product:
+        name_en: 英文名称
+        name_cn: 中文名称
+        price: 原价
+        clearing_price: 结算价格
+        currency: 货币
+        clearing_currency: 结算货币
+        description: 描述
+        tax_rate: 预估税率
+        brand_cn: 品牌中文名称
+        brand_en: 品牌英文名称
+        weight: 预估重量
+        weight_unit: 重量单位
+        status: 状态
+        picture_ids: 产品图片
+      live_show:
+        subject: 专场主题
+        location: 直播地点
+        description: 专场介绍
+        preview: 预览图
+        countdown: 支付时效
+        exchange_rate: 专场汇率
+        html_url: 预展链接
+        start_time: 开始时间
+        status: 结束
+
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              format: "无效的邮件格式"
+            name:
+              format: "只能使用字母、数字或 - 号，并且不能以 - 号开头"
+  sessions:
+    flashes:
+      incorrect_email_or_password: '错误的邮箱或者密码'
+      login_required: '需要先登录'
+  statuses:
+    liveshow:
+      pending: 预展中
+      previewing: 预展中
+      onair: 直播中
+      closed: 已完场
+    product:
+      draft: 草稿
+      previewing: 预展
+      published: 上架
+      locked: 下架
+    inbound:
+      pending: 处理中
+      finish: 处理完成
+      failed: 通知入库失败
+    order:
+      pending: "待付款"
+      cancel: "订单被取消"
+      failed: "付款失败"
+      paid: "已付款，待算运费"
+      packaged: "已备货"
+      freight: "已出运费，催缴运费"
+      freight_paid: "已交运费"
+      outbound: "已出库"
+      transit_cn: "飞往中国"
+      tax: "已出税，催缴关税"
+      tax_paid: "已缴关税"
+      express: "已发国内快递"
+      arrived: "已送达"
+      finish: "已完成"
+
+  will_paginate:
+    previous_label: 上一页
+    next_label: 下一页
+
+
+

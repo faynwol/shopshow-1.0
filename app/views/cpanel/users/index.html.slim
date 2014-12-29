@@ -1,0 +1,19 @@
+.bs-docs-section
+  .page-header Users
+.main.clearfix
+  table.table.table-striped
+    thead
+      tr
+        th id
+        th name
+        th balance
+        th created at
+        
+    tbody
+      - @users.each do |u|
+        tr
+          td= u.id
+          td= u.name
+          td= u.balance
+          td= u.created_at
+

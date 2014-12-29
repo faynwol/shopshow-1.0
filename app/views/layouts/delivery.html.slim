@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+html
+  head
+    title Control Panel
+    = stylesheet_link_tag    'delivery/app', media: 'all'
+    = javascript_include_tag 'delivery/app'
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    = csrf_meta_tags
+  body class="#{controller_name}-#{action_name}"
+    #main.clearfix
+      .left-pane
+        .logo
+        / .user
+        /   span Teddy
+        /   .text-muted Last logged at: 2014-10-25 18:00:00
+        .menu
+          .list-group
+            a.list-group-item href="#{delivery_live_shows_path}" class="#{params[:controller] == 'delivery/live_shows' ? 'active' : nil}"
+              i.fa.fa-home
+              span.ml-5 直播场次
+            a.list-group-item href="#{delivery_orders_path}" class="#{params[:controller] == 'delivery/orders' ? 'active' : nil}"
+              i.fa.fa-users
+              span.ml-5 订单
+              span.badge= Order.count
+
+            / a.list-group-item href="#{delivery_orders_path}"
+            /   i.fa.fa-users
+            /   span.ml-5 Followers
+            /   .pull-right
+            /     i.fa.fa-chevron-right
+            a.list-group-item href="#{delivery_inbounds_path}"  class="#{params[:controller] == 'delivery/inbounds' ? 'active' : nil}"
+              i.fa.fa-home
+              span.ml-5 入库单
+              span.badge.mr-5= Inbound.count
+            - if false
+              a.list-group-item href="#"
+                i.fa.fa-th-large
+                span.ml-5 出库单
+                span.badge.mr-5 0
+      .content
+        .navbar.navbar-default.navbar-fixed-top
+          / ol.breadcrumb.navbar-left
+          /   li
+          /     a href="#" Home
+          /   li Orders
+          ul.nav.navbar-nav.navbar-right
+            li
+              a href="#{delivery_logout_path}" data-method="DELETE"
+                i.fa.fa-power-off
+                span.ml-5 退出
+        #page-wrapper
+          = yield

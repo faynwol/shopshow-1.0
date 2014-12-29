@@ -1,0 +1,44 @@
+.page-header
+  h1.clearfix
+    | 入库单列表
+    .pull-right
+      a.btn.btn-primary href="#{new_delivery_inbound_path}"
+        i.fa.fa-plus
+        span.ml-5 新建入库单
+.page-content
+  table.table.table-hover
+    thead
+      tr
+        th #
+        th 入库单号
+        th 渠道
+        th SKU 总数
+        th 入库数量
+        th 创建时间
+        th 更新时间
+        th 状态
+        th -
+    tbody
+      - @inbounds.each_with_index do |inbound, i|
+        tr
+          td= i + 1
+          td
+            a href="#{delivery_inbound_path(inbound)}"= inbound.channel_inbound_no
+          td= inbound.channel.name
+          td= inbound.quantity
+          td= inbound.inbounded_quantity
+          td= inbound.created_at.strftime('%F %T')
+          td= inbound.updated_at.strftime('%F %T')
+          td= inbound.readable_status
+          td 
+            a.queryInbound href="#this" path="#{query_delivery_inbound_path(inbound.id)}": i.fa.fa-refresh          
+javascript:
+  $(function(){
+
+    $('a.queryInbound').click(function(){
+      $(this).button('loading');
+      var path = $(this).attr('path')
+      window.location.href = path;
+    })
+  
+  })

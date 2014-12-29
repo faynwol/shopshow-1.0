@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+html
+  head
+    title Delivery System
+    = stylesheet_link_tag    'delivery/app', media: 'all'
+    = javascript_include_tag 'application'
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    = csrf_meta_tags
+  body.login
+    .form-signin
+      .text-center
+        h1 ShopShow
+      hr
+      = form_tag delivery_login_path, class: 'form' do
+        p.text-muted.text-center 输入管理员帐号和密码
+        = render "share/flash_messages"        
+        .form-group
+          input.form-control.input-lg.top type="text" placeholder="帐号" name="login"
+          input.form-control.input-lg.bottom type="password" placeholder="密码" name="password"
+        .form-group
+          button.btn.btn-primary.btn-lg.btn-block type="submit" 登录
+
+    

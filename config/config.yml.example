@@ -1,0 +1,64 @@
+defaults: &defaults
+  app_name: "Shopshow"
+  app_title: "Shopshow"
+  app_keywords: "Shopshow"
+  app_description: "Shopshow"
+
+  jabber_server: shopshow.com
+  bosh_service_url: http://115.29.167.37:5280/http-bind/
+  admin_emails:
+    - "jimmy.huangjin@gmail.com"
+    - "bzu_2007@126.com"
+    - "ran.bee@gmail.com"
+    - "sdzc1014@163.com"
+    - "zhoushiye@live.cn"
+    - "a@a.com"
+
+  #jpush_config
+  app_key: '48094d32b0520bf0631824f6'
+  master_secret: 'eb541758a713c2c280ab1af3' 
+
+development:
+  <<: *defaults 
+
+  ejabberd_database:
+    adapter: mysql2
+    encoding: utf8
+    pool: 5
+    # host: 192.168.1.201
+    # database: ejabberd
+    # username: shopshow
+    # password: 123456
+    
+    host: 127.0.0.1
+    database: ejabberd
+    username: root
+    password: 0819
+
+test:
+  <<: *defaults
+
+  ejabberd_database:
+    adapter: mysql2
+    encoding: utf8
+    pool: 5
+    # host: 192.168.1.201
+    # database: ejabberd
+    # username: shopshow
+    # password: 123456
+    
+    host: 127.0.0.1
+    database: ejabberd
+    username: root
+    password: 0819   
+
+production:
+  <<: *defaults
+  ejabberd_database:
+    adapter: mysql2
+    encoding: utf8
+    pool: 5
+    host: 127.0.0.1
+    database: ejabberd
+    username: root
+    password: 69103 

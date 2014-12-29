@@ -1,0 +1,27 @@
+.bs-docs-section
+  .page-header.clearfix
+    .pull-left Create live shopping show
+    .pull-right
+  .main.clearfix
+    = form_for @live_show, url: cpanel_live_shows_path do |f|
+
+      = render 'share/form_error_messages', form: f
+
+      .form-group
+        = f.text_field :subject, placeholder: 'The subject of a shopping show', tabindex: 2, class: 'form-control'          
+      .form-group
+        label.control-label style="width:100px"
+          | Start Time (Beijing):
+        = f.datetime_select :start_time, placeholder: 'The start time of a shopping show', class: 'form-control'
+      .form-group
+        label.control-label  style="width:100px"
+          | Close Time (Beijing):
+        = f.datetime_select :close_time, placeholder: 'The end time of a shopping show', class: 'form-control'
+      .form-group
+        = f.text_field :html_url, placeholder: 'Preview url', class: 'form-control'
+      .form-group
+        / # = f.label :preview, class: 'control-label'
+        label.control-label Ad Banner
+        = f.file_field :preview, class: 'form-control'
+      
+      input.btn.btn-primary.btn-lg.btn-block type="submit" value="Submit"

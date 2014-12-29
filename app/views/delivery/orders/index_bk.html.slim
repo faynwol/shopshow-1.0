@@ -1,0 +1,83 @@
+.page-header
+  h1.clearfix
+    | Orders
+    .pull-right
+      = form_tag delivery_orders_path(live_show_id: params[:live_show_id]), method: :get do
+        = select_tag :live_show_id, options_from_collection_for_select(LiveShow.all, "id", "subject", @live_show.try(:id)), class: 'form-control', prompt: '--请选择直播场次--'
+.page-content
+  - if @live_show.blank?
+    p.text-center.text-muted 请选择直播场次
+  - else
+    table.table.table-striped.table-hover
+      thead
+        tr
+          th Order No.
+          th User
+          th Price
+          th Recipient
+          th Phone
+          th Real Name
+          th Remark
+          th Status
+          th -
+      tbody
+        - @orders.each_with_index do |order, i|
+          - recipient = order.recipient
+          - outbound = Outbound.find_by order_id: order.id
+          tr 
+            td= order.id.upcase
+            td= order.user.name
+            td= order.amount
+            td= order.recipient.address
+            td= order.recipient.tel
+            td= order.recipient.name
+            td= order.remark
+            td= order_flag_tag order
+            td
+              - if order.status == "freight_paid" ||  order.status == "outbound"
+                a#queryOutboundState.btn.btn-primary.btn-xs href="#this" outbound-id="#{outbound.id}"
+                  span 查询运单
+              - else
+                a#outbound.btn.btn-danger.btn-xs href="#this" order-id="#{order.id}"
+                  span 出库                
+            
+          tr
+            td colspan="9"
+              table.table.table-striped
+                tr 
+                  td Product Name
+                  td Description
+                  td Sku ID
+                  td Quantity
+                  td Unit Price (RMB)
+                  td Grand Total (RMB)
+                - order.order_items.each do |oi|     
+                  tr
+                    td= oi.product.name_en
+                    td= oi.product.description
+                    td= oi.sku.sku_id
+                    td= oi.quantity
+                    td= oi.product.clearing_price
+                    td= (oi.quantity * oi.product.clearing_price).to_f                     
+
+javascript:
+  $(function () {
+    $('form select').change(function () {
+      $(this).parent().submit();
+    }); 
+
+    $('a#outbound').click(function(){
+      var $this = $(this);
+      var order_id = $this.attr('order-id');
+
+      $.post('/delivery/outbounds', {order_id: order_id}, function(res){         
+          location.reload();
+      })
+    });
+
+    $('a#queryOutboundState').on('click', function(){
+      $.post("/delivery/outbounds/" + $(this).attr('outbound-id') + "/query",  function(res){
+        window.location.reload();
+      });
+    })
+  });

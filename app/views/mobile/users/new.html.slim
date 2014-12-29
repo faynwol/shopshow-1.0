@@ -1,0 +1,24 @@
+= javascript_include_tag 'mobile/register'
+
+.panel
+  .panel-body
+    .step_1
+      .form-group
+        = text_field_tag :phone, nil, placeholder: '输入手机号码，注册后可直接使用手机登录', class: 'form-control input-lg'
+        button.btn.btn-warning.btn-lg.btn-block.send_code type="submit" 下一步
+    .step_2
+      .form-group
+        = text_field_tag :code, nil, placeholder: '验证码，已发送到手机', class: 'form-control input-lg'
+        button.btn.btn-default.resend disabled=true 60
+        button.btn.btn-warning.btn-lg.btn-block.verify_code type="submit" 下一步
+    .step_3
+      .form-group
+        = text_field_tag :name, nil, placeholder: '你的昵称', tabindex: 3, class: 'form-control input-lg'
+        = hidden_field_tag :valid_phone, nil
+      .form-group
+        = password_field_tag :password, nil, placeholder: '设定密码', class: 'form-control input-lg'
+
+        button.btn.btn-warning.btn-lg.btn-block.create_user type="submit" 提交注册
+        .text-muted.text-center.mt-20
+          span 注册即视为同意
+          a.ml-5 商品秀服务条款        

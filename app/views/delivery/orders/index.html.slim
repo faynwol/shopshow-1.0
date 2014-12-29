@@ -1,0 +1,134 @@
+= javascript_include_tag 'delivery/order'
+.page-header
+  h1.clearfix
+    | 订单列表
+    .pull-right
+      = form_tag delivery_orders_path(live_show_id: params[:live_show_id]), method: :get do
+        = select_tag :live_show_id, options_from_collection_for_select(LiveShow.all, "id", "subject", @live_show.try(:id)), class: 'form-control', prompt: '--全部订单--'
+  hr
+
+.page-content
+  table.table
+    thead
+      tr
+        th 商品
+        th 单价                           
+        th 数量
+        th 重量(kg)         
+        th 商品价格(元)
+        th 运费(元)
+        th 实付款(元)       
+        th 订单状态
+    - @orders.each_with_index do |order, i|
+      - recipient = order.recipient
+      - outbound = Outbound.find_by order_id: order.id
+      tbody
+        tr.info
+          td.clearfix colspan="8"
+            / input type="checkbox"                      
+            span.ml-5 订单编号
+            span.text-muted.ml-5= order.id.upcase
+            span.ml-20 下单时间
+            span.text-muted.ml-5= order.created_at.strftime('%F %T')
+            a.ml-20= order.user.name            
+        - order.order_items.each_with_index do |oi, i|
+          tr.order-item
+            td.clearfix
+              .pull-left
+                = image_tag oi.product.cover.resource_url, size: '60x60'
+              .pull-left.ml-10.detail
+                h6: a= oi.product.name_en
+                .text-muted= (oi.product.description || oi.product.name_cn).truncate(25)
+                .text-danger= oi.sku.prop_to_text
+            td.text-center= oi.product.clearing_price           
+            td.text-center= oi.quantity
+            td.text-center= oi.sku.weight
+            - if i.zero?
+              td.text-center rowspan="#{order.order_items.count}"= order.amount   
+            - if i.zero?
+              td.text-center rowspan="#{order.order_items.count}"= order.carriage      
+
+            - if i.zero?
+              td.text-center rowspan="#{order.order_items.count}"
+                strong= order.amount + order.carriage.to_f
+            - if i.zero?
+              td.text-center rowspan="#{order.order_items.count}"
+                .text-muted= order.readable_status
+                - if order.status == 'outbound'
+                  - outbound_id = Outbound.find_by(order_id: order.id).try(:id)
+                  .text-primary.mt-5: a.orderDetail href="#this" outbound_id="#{outbound_id}" 物流详情
+
+                - if order.status == 'paid'
+                  .operation.mt-5 onclick="App.Orders.checkPrepareProducts('#{order.id}', this)"
+                    button.btn.btn-primary.btn-xs
+                      i.fa.fa-refresh                      
+                      span.ml-5 检查备货 
+                - elsif order.status == 'freight'
+                  .operation.mt-5 onclick="App.Orders.notifyCarriage('#{order.id}', this)"
+                    button.btn.btn-primary.btn-xs
+                      i.fa.fa-cny
+                      span.ml-5 催缴运费     
+                  .operation.mt-5 onclick="App.Orders.delivery('#{order.id}', this)"
+                    button.btn.btn-danger.btn-xs
+                      i.fa.fa-send
+                      span.ml-5 出库  
+                - elsif order.status == 'freight_paid'
+                  .operation.mt-5 onclick="App.Orders.delivery('#{order.id}', this)"
+                    button.btn.btn-danger.btn-xs
+                      i.fa.fa-send
+                      span.ml-5 出库  
+                - elsif order.status == 'outbound'
+                  .operation.info.mt-5
+                    i.fa.fa-plane
+                    span.ml-5 飞往中国       
+                - outbound = Outbound.find_by(order_id: order.id)
+                - if outbound.try(:has_tax)
+                  .operation.mt-5 onclick="App.Orders.notifyTax('#{order.id}, this')"
+                    button.btn.btn-primary.btn-xs
+                      i.fa.fa-cny
+                      span.ml-5 
+                        | 催缴关税                
+                        = "(#{outbound.tax}元)"
+
+        tr.remark.active
+          td.clearfix colspan="8"            
+            .text-muted
+              span
+                i.fa.fa-phone-square.mr-10
+                = order.user.phone
+            .text-muted              
+              span= order.recipient.address
+              span.ml-10= order.recipient.name
+            - if not order.remark.blank?
+              .text-muted
+                span 备注:
+                span.ml-5= order.remark
+
+        tr.gap
+          td colspan="6"                    
+
+.loading
+
+
+javascript:
+  $(function () {
+    $('form select').change(function () {
+      $(this).parent().submit();
+    }); 
+
+    $('a#outbound').click(function(){
+      var $this = $(this);
+      var order_id = $this.attr('order-id');
+
+      $.post('/delivery/outbounds', {order_id: order_id}, function(res){         
+          location.reload();
+      })
+    });
+
+    $('a#queryOutboundState').on('click', function(){
+      $.post("/delivery/outbounds/" + $(this).attr('outbound-id') + "/query",  function(res){
+        window.location.reload();
+      });
+    });
+
+  });

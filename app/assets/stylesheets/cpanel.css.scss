@@ -1,0 +1,91 @@
+@import "font-awesome-sprockets";
+@import "font-awesome";
+@import "bootstrap";
+@import "docs";
+@import "artDialog-without-seajs/ui-dialog";
+
+body{font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;}
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+pre code { background: transparent; }
+
+@each $margin in 2, 5, 10, 15, 20, 25, 30, 50 {
+  .ml-#{$margin} { margin-left: #{$margin}px; }
+  .mr-#{$margin} { margin-right: #{$margin}px; }
+  .mt-#{$margin} { margin-top: #{$margin}px; }
+  .mb-#{$margin} { margin-bottom: #{$margin}px; }
+}
+
+.bs-docs-section p {
+  line-height: 2;
+}
+
+.bs-docs-section p.lead {
+  line-height: 1.4;
+}
+
+table, table a {
+  font-size: 12px;
+}
+
+@media (max-width: $grid-float-breakpoint) {
+  .nav > li { display: block; }
+  .bs-sidebar .nav li.active .nav {
+    display: block;
+  }
+}
+
+// custom icon set
+i.fa.fa-sound {
+  width: 32px;
+  height: 32px;
+  background: image-url('sound.png');
+}
+
+i.fa.fa-video {
+  width: 32px;
+  height: 32px;
+  background: image-url('video.png');
+}
+
+select * {
+  margin: 0;
+  padding: 0;
+}
+select {
+  border:1px solid #563D7C;
+  display: inline;
+}
+
+.material-panel {
+  width:124px;
+  height:120px;
+  border: 1px #e5e5e5 solid;
+  text-align:center;
+  line-height:120px;
+  border-radius:5px;  
+}
+
+.material-panel.choosed {
+  border: 2px #563d7c solid;
+  // background-image: image-url('check.png');    
+  background-repeat: no-repeat;
+  background-position: top 98px left 103px;
+  background-size: 19px;
+}
+
+.material-panel.mouseover {
+  cursor: pointer;
+  border: 2px #563d7c solid;
+}
+
+.material-panel img {
+  width: 90px;
+}
+
+.sub-total{
+   background:#563d7c;
+   color:#fff;
+}
+
+
+

@@ -1,0 +1,87 @@
+= javascript_include_tag 'materials'
+= stylesheet_link_tag 'chat'
+
+.bs-docs-section
+  .page-header.clearfix
+    .pull-left Edit Product
+    .pull-right
+  .main.clearfix.product-form#Products
+    .input-groups.pull-left
+      = form_for @product, url: cpanel_product_path(@product) do |f|
+        = render 'share/form_error_messages', form: f
+
+        .form-group
+          = f.text_field :name_en, placeholder: 'Product EN Name', required: true, class: 'form-control'
+        .form-group
+          = f.text_area :description, placeholder: 'Description', class: 'form-control'        
+        .form-group
+          = f.text_field :name_cn, placeholder: 'Product CN Name', required: true, class: 'form-control'
+        .form-group
+          = f.number_field :price, placeholder: 'Price', required: true, class: 'form-control'
+        .form-group
+          .input-group
+            .input-group-addon Currency
+            = f.text_field :currency, placeholder: 'Dollar', disabled: true, class: 'form-control'
+        .form-group
+          = f.number_field :tax_rate, placeholder: 'Tax Rate', class: 'form-control'
+        .form-group
+          = f.text_field :brand_en, placeholder: 'Brand EN Name', class: 'form-control'
+        .form-group
+          = f.text_field :brand_cn, placeholder: 'Brand CN Name', class: 'form-control'
+        - (@product.content[:specifications] || {}).each_pair do |k, v|
+          .form-group.property.clearfix
+            input.name.form-control.pull-left type="text" placeholder="eg: Color" name="properties[][name]" value=k
+            input.value.form-control.pull-left type="text" placeholder="Red,Yellow,Black" name="properties[][value]" value=v  
+
+        .form-group
+          = hidden_field_tag :picture_ids, @product.materials.map(&:id).join(',')
+          = hidden_field_tag :live_show_id, @product.live_show_id
+          button.btn.btn-primary.btn-lg.postProduct type="submit" data-loading-text="Loading..." Submit
+    .pull-left.pictures.ml-20
+      a#choose_uploaded_pic.btn.btn-primary.btn-xs href="javascript:;" live-show-id="#{@product.live_show_id}" 
+        i.fa.fa-cloud
+        span.ml-2 Choose uploaded pictures
+
+      = file_field_tag 'material', id: 'product_picture', class: 'mb-30 mt-30', multiple: true
+
+      .picture-lists.clearfix
+        - @product.materials.each do |m|
+          .pic id="#{m.id}"
+            .remove
+            = image_tag m.resource_url, size: '80x80', class:'img-thumbnail'
+
+javascript:
+  $(function () {
+    $('#product_name_en').focus(function () {
+      $(this).val($('#product_description').val());
+    });
+
+    $('form.edit_product').submit(function () {
+      var name_en = $.trim($('#product_name_en').val());
+      var price = $.trim($('#product_price').val());
+      var picture_ids = $.trim($('#picture_ids').val());
+      var description = $.trim($('#product_description').val());
+
+      if (name_en.length == 0) {
+        alert('Product name cannot be blank');
+        return false;
+      }
+
+      if (price.length == 0) {
+        alert('Product price cannot be blank');
+        return false;
+      }
+
+      if (description.length == 0) {
+        alert('Product description cannot be blank');
+        return false;
+      }
+
+      if (picture_ids.length == 0) {
+        alert('Please upload one picture at least');
+        return false;
+      }
+
+      return true;
+    });
+  });

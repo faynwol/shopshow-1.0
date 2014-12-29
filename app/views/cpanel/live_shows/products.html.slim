@@ -1,0 +1,28 @@
+table.table.table-hover.table-striped
+  thead
+    tr
+      th #
+      th name_en
+      th description
+      th price
+      th currency
+      th cover
+      th status
+      th -
+      th -
+  tbody
+    - @products.each_with_index do |product, i|
+      tr
+        td= i + 1
+        td= product.name_en
+        td= product.description
+        td= product.price
+        td= product.currency
+        td
+          = image_tag product.cover.resource_url, :size => '40x40'
+        td= product.status
+        td
+          a href="#{edit_cpanel_product_path(product.id)}" 编辑
+        td
+          - if product.preset?
+            a.publishProduct href="#this" data-product_id="#{product.id}" 发布

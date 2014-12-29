@@ -1,0 +1,38 @@
+.page-header
+  h1.clearfix
+    | Inbounds <small> sku qunatity: 1987 </small>
+    .pull-right
+      a.btn.btn-primary href="#{new_delivery_inbound_path}"
+        i.fa.fa-plus
+        span.ml-5 新建入库单
+.page-content
+  table.table.table-striped.table-hover
+    thead
+      tr
+        / th 
+        /   input type="checkbox" name=""
+        th #
+        th Inbound No.
+        th Channel
+        th Sku Quantity
+        th Inbounded Quantity
+        th Created at
+        th Updated at
+        th Status
+        th -
+    tbody
+      - 15.times do
+        tr
+          / td
+          /   input type="checkbox" name=""
+          td 1
+          td SS14122500003
+          td USZCN
+          td 1876
+          td 1600
+          td 2014-10-25 18:00:00
+          td 2014-10-25 18:00:00
+          td
+            span.label.label-success 入库成功
+          td 
+            a href="#": i.fa.fa-refresh

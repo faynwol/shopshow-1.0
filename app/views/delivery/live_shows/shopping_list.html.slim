@@ -1,0 +1,50 @@
+= javascript_include_tag 'delivery/live_show'
+.page-content
+  = render "delivery/live_shows/detail"
+  .list-container
+    = render "delivery/live_shows/nav"
+    .list-content
+      .list-options.clearfix
+        .pull-left
+          .btn-group
+            a.btn.btn-small.btn-blue.active.icon: i.fa.fa-refresh
+            a.btn.btn-small.btn-blue 刷新
+        .pull-right
+          .btn-group
+            a.btn.btn-small.btn-red.active.icon: i.fa.fa-plus
+            a.btn.btn-small.btn-red href="#{new_delivery_live_show_product_path(@live_show)}" 生成入库单
+            
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th #
+            th SKU
+            th 商品图
+            th 商品名称
+            th 商品描述
+            th 商品规格
+            th 重量(KG)
+            th 件数
+            th 单价(美元)
+            th 总价(美元)
+        tbody
+          - @order_items.each_with_index do |item, i|
+            tr
+              td= i + 1
+              td= item.sku.sku_id.upcase
+              td
+                = image_tag item.product.cover.resource_url, size: '40x40'
+              td= item.product.name_en
+              td= item.product.description
+              td= item.sku.prop_to_text
+              td= item.sku.weight
+              td= item.quantity
+              td= item.product.price
+              td= item.calc_in_total
+
+        tr.warning
+          td 总计
+          td colspan="6"
+          td= @order_items.map(&:quantity).sum
+          td
+          td= @order_items.map{ |is| is.calc_in_total }.sum

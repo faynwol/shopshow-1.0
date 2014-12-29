@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+html
+  head
+    title Control Panel
+    = stylesheet_link_tag    'cpanel', media: 'all'
+    = javascript_include_tag 'application'
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    = favicon_link_tag
+    = csrf_meta_tags
+  body
+    header.navbar.navbar-fixed-top.navbar-inverse.bs-docs-nav role="banner"
+      .container
+        .navbar-header
+          button.navbar-toggle type="button" data-toggle="collapse" data-target=".bs-navbar-collapse"
+            i.fa.fa-bars
+          a.navbar-brand href="#{cpanel_root_path}" Control Panel
+
+        ul.nav.navbar-nav.navbar-right
+          li: a href="#"= current_user.name
+
+    .container-fluid.bs-docs-container          
+      .row
+        .col-md-2
+          .bs-sidebar.hidden-print.affix role="complementary"
+            ul.nav.bs-sidenav
+              li class=('active' if %w(cpanel/live_shows cpanel/products).include?(params[:controller]))
+                a href="#{cpanel_live_shows_path}" Liveshows
+                ul.nav
+                  li: a href="#{cpanel_live_shows_path}" List
+                  li: a href="#{new_cpanel_live_show_path}" Add Liveshow
+                li class=('active' if params[:controller] == 'cpanel/users')
+                  a href="#{cpanel_users_path}" Users
+                  ul.nav
+                    li: a href="#{cpanel_users_path}" List
+              - if false
+                li class=('active' if params[:controller] == 'cpanel/orders')
+                  a href="#{cpanel_orders_path}" Orders
+                  ul.nav
+                    li: a href="#{cpanel_orders_path}" List
+
+        .col-md-10 role="main"
+          = yield

@@ -1,0 +1,38 @@
+- if login?
+  img src="#{current_user.avatar_url(:middle)}"
+  = current_user.name
+  a href="#{logout_path}" data-method="delete" 退出
+
+  = form_tag '/update_avatar', multipart: true do
+    = file_field_tag :avatar
+    input.btn.btn-primary type="submit" value="更新头像"
+
+  hr
+  p 增加收件人
+
+  = form_for @recipient, url: '/update_recipient', multipart: true do |f|
+    = render 'share/form_error_messages', form: f
+    .form-group
+      = f.text_field :zip_code, class: 'form-control', placeholder: '邮编'
+    .form-group
+      = f.text_field :name, class: 'form-control', placeholder: '收件人姓名'
+    .form-group
+      = f.select :region_id, LuRegion.all.collect { |p| [ p.name, p.id ] }
+    .form-group
+      = f.text_field :address, class: 'form-control', placeholder: '收件人地址'
+    .form-group
+      = f.text_field :tel, class: 'form-control', placeholder: '联系电话'
+    .form-group
+      = f.text_field :email, class: 'form-control', placeholder: '联系邮箱'
+    .form-group
+      = f.text_field :id_card_no, class: 'form-control', placeholder: '身份证号码'
+    .form-group
+      label.control-label 身份证正面照片
+      = f.file_field :id_card_pic_obverse
+    .form-group
+      label.control-label 身份证反面照片
+      = f.file_field :id_card_pic_back
+    .form-group
+      input.btn.btn-primary type="submit" value="添加"
+- else
+  a href="#{login_path}" 登录

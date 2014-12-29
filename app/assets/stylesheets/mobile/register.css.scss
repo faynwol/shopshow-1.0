@@ -1,0 +1,57 @@
+// user register page
+.users-new, .users-create {
+  .panel-body {
+    padding: 0;
+  }
+
+  .panel-body .form-group {
+    margin-bottom: -1px;
+  }
+
+  .panel-body input.form-control {
+    border-radius: 0px;
+    font-size: 14px;
+    padding: 20px 16px;
+    height: 50px;
+  }
+
+  .panel-body .btn {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;    
+  }
+
+  .step_2, .step_3 {
+    display: none;
+  }
+
+  .step_2 > .form-group {
+    position: relative;
+  }
+
+  .step_2 > .form-group button.resend {
+    background-color: #DDD;
+    position: absolute;
+    margin-top: 0px;
+    right: 10px;
+    top: 8px;
+    border-radius: 4px;
+    width: 80px;
+  }
+
+  @mixin has_bg_image($image) {
+    background-size: 16px 16px;
+    background-image: image-url($image);
+    background-repeat: no-repeat;
+    background-position: 10px 15px;
+    padding-left: 30px;    
+  }
+
+  .step_3 #name {
+    @include has_bg_image('mobile/phone.png');
+  }
+
+  .step_3 #password {
+    @include has_bg_image('mobile/lock.png');
+  }  
+}

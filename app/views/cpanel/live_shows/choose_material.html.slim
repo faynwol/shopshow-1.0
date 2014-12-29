@@ -1,0 +1,16 @@
+ul.list-unstyled.clearfix
+	- @materials.each do |m|
+		li.pull-left.ml-5.mt-5
+			.material-panel
+				img src="#{m.resource_url}" material-id="#{m.id}"
+
+javascript:
+	$('.material-panel').click(function(){
+		$(this).toggleClass('choosed');
+	})
+
+	$('.material-panel').mouseover(function(){
+		$(this).addClass('mouseover');
+	}).mouseout(function(){
+		$(this).removeClass('mouseover');
+	})

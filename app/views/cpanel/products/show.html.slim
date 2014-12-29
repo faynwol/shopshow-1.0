@@ -1,0 +1,10 @@
+.panel.panel-default
+  .panel-heading.clearfix
+    .pull-left
+      a href="#"= @product.name_en
+      p.description style="font-size:12px; color: #999; margin-bottom:0px;"= @product.description
+    .pull-right
+      .dollar.price ="$#{@product.price}"
+      .rmb.price= "￥#{@product.clearing_price}"
+  .panel-body
+    = image_tag @product.cover.resource_url

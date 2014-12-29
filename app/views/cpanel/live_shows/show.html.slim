@@ -1,0 +1,250 @@
+= current_info_as_json @live_show
+
+= javascript_include_tag 'chat', 'chat_options'
+= stylesheet_link_tag 'chat'
+
+.bs-docs-section
+  .tab-header
+    ul.nav.nav-tabs
+      li.active role="tab"
+        a#chatTab href="#Chat" data-toggle="tab"
+          i.fa.fa-comments
+          span.ml-2 Chat
+      li role="tab"
+        a href="#Products" data-toggle="tab"
+          i.fa.fa-th-large
+          span.ml-2 Products
+      li role="tab" 
+        a href="#Orders" data-toggle="tab"
+          i.fa.fa-list
+          span.ml-2 Orders
+
+      li.pull-right.subject title=@live_show.subject 
+        = @live_show.subject
+        .connect-status
+          span.label.label-default
+
+  .tab-content
+    #Chat.main.clearfix.tab-pane.active
+      .well.clearfix
+        .pull-left.occupants
+          table.table.table-striped.table-hover
+            thead
+              tr
+                th 
+                  i.fa.fa-users
+                  span.ml-2 Occupants                 
+                th 
+                th
+                  a.queryQccupants href="#this"
+                    i.fa.fa-refresh
+
+            tbody
+              - 0.times do
+                tr
+                  td jimmy
+                  td
+                  td 
+                    a href="#this"
+                      i.fa.fa-sign-out
+                      span.ml-2 Kick    
+        .pull-left.chat
+          .chattings
+            - 0.times do
+              .to.message.clearfix
+                a.pull-left.name href="#" Host
+                .pull-left.body 
+                  .text
+                    | 闭包中经常需要绑定this的值给闭包的私有变量，CoffeeScript使用特殊的闭包中经常需要绑定this的值给闭包的私有变量，CoffeeScript使用特殊的
+              .from.message.clearfix
+                a.name.pull-right href="#" Guest
+                .pull-right.body 
+                  .text hell yeah!
+          .messageBox.clearfix
+            .pull-left
+              textarea.form-control.messageBody
+            .pull-right
+              button.btn.btn-primary.sendMessage Post
+    #Products.tab-pane.main
+      .products-list
+        .clearfix.mb-10
+          .pull-right 
+            a.btn.btn-success.btn-lg href="#this" 
+              i.fa.fa-plus
+              span.ml-5 Add Product
+
+
+      .product-form.clearfix.hide
+        .pull-left.input-groups
+          .form-group
+            textarea.form-control#description placeholder="Description" name="description"        
+          .form-group
+            input.form-control#name_en type="text" placeholder="Product EN Name" name="name_en" required="true"
+          .form-group
+            input.form-control#name_cn type="text" placeholder="Product CN Name" name="name_cn" required="true"
+          .form-group
+            input.form-control#price type="number" placeholder="Price (dollar)" name="price" required="true"
+          .form-group
+            .input-group
+              .input-group-addon Currency
+              input.form-control#currency type="text" placeholder="Dollar" value="Dollar" disabled=true name="currency"
+          .form-group
+            input.form-control#tax_rate type="number" placeholder="Tax Rate" name="tax_rate"
+          .form-group
+            input.form-control#brand_en type="text" placeholder="Brand EN Name" name="brand_en"
+          .form-group
+            input.form-control#brand_cn type="text" placeholder="Brand CN Name" name="brand_cn"
+          .form-group.property.clearfix
+            input.name.form-control.pull-left type="text" placeholder="eg: Color (EN)" name="properties[][name]"
+            input.value.form-control.pull-left type="text" placeholder="Red,Yellow,Black (EN)" name="properties[][value]"
+          .form-group.property.clearfix
+            input.name.form-control.pull-left type="text" placeholder="eg: Size (EN)" name="properties[][name]"
+            input.value.form-control.pull-left type="text" placeholder="XL,XXXL,XXXXL (EN)" name="properties[][value]"
+          .checkbox
+            label
+              input#status type="checkbox" name="status" checked="checked" Publish
+          .form-group
+            = hidden_field_tag :live_show_id, @live_show.id
+            = hidden_field_tag :picture_ids, []
+            
+            button.btn.btn-primary.btn-lg.postProduct type="button" data-loading-text="Loading..." Submit
+            a.ml-10.backToProductList href="#this" Back to product list
+
+        .pull-left.pictures
+          a#choose_uploaded_pic.btn.btn-primary.btn-xs href="javascript:;" live-show-id="#{@live_show.id}" 
+            i.fa.fa-cloud
+            span.ml-2 Choose uploaded pictures
+
+          = file_field_tag 'material', id: 'product_picture', class: 'mb-30 mt-30', multiple: true
+
+          .picture-lists.clearfix
+            - 0.times do
+              .pic
+                .remove
+                = image_tag 'avatar.png', size: '80x80', class:'img-thumbnail'
+
+    #Orders.tab-pane.main      
+      .tab-header
+
+        a.btn.btn-default.btn-primary#orders-tab href="javascript:;"
+          i.fa.fa-list
+          span.ml-2 Orders
+      
+        a.btn.btn-default.ml-10#shopping-list-tab href="javascript:;"
+          i.fa.fa-list
+          span.ml-2 Shopping List   
+
+        label.pull-right
+          | Exchange rate: (6.15)
+
+      br
+
+      #orders
+        p Orders 
+        .orders-list
+          .clearfix.mb-10
+          table.table.table-hover.table-striped
+            thead
+              tr
+                th id
+                th User Nickname
+                th Price
+                th Recipient
+                th Tel
+                th Real Name
+                th Remark
+                th Status
+
+            tbody              
+              - @orders.each_with_index do |order, i|
+                - recipient = order.recipient
+                - order_items = order.order_items
+                - if order.paid?
+                  - klass = 'success'
+                - elsif order.failed?
+                  - klass = 'danger'
+
+                tr class="#{klass}"                
+                  td= order.id
+                  td= order.user.name
+                  td= order.amount
+                  td= recipient.address                
+                  td= recipient.tel
+                  td= recipient.name
+                  td= order.remark  
+                  td= order.status
+                           
+                  tr
+                    td colspan="7" style="border-bottom: 2px #563d7c solid; "
+                      table.table.table-striped
+                        thead
+                          tr
+                            th Product Name
+                            th Sku ID
+                            th Quantity
+                            th Unit Price (RMB)
+                            th Grand Total(RMB)
+                        tbody
+                          - order_items.each do |oi|     
+                            - product = oi.product
+                            tr
+                              td= product.description
+                              td= oi.sku.sku_id
+                              td= oi.quantity
+                              td= product.clearing_price
+                              td= (oi.quantity * product.clearing_price).to_f                                   
+
+
+      #shopping-lists.sr-only
+        p Shopping Lists (Paid)
+        .order-items-list
+          .clearfix.mb-10
+          table.table.table-hover.table-striped
+            thead
+              tr
+                th Picture                
+                th Sku No.
+                th Product Name (EN)
+                th Description
+                th Spec.                
+                th Quantity
+                th The unit price
+                th Sub Total
+
+            tbody            
+              - grand_total = 0
+              - total_quantity = 0    
+                      
+              - @order_items.each_with_index do |item, i|
+                - product = item.product  
+                - sku = item.sku         
+                - sub_total = item.quantity * product.try(:price).to_i
+                - grand_total += sub_total
+                - total_quantity += item.quantity
+                tr.sku-list sku-id="#{sku.try(:sku_id)}" sku-amount=item.quantity
+                  td
+                    img src="#{product.cover.resource_url}" width="100px"                 
+                  td= sku.try(:sku_id)
+                  td= product.try(:name_en)
+                  td= product.try(:description)
+                  td= sku.prop_to_text               
+                  td style="font-size:16px;"= item.quantity
+                  td= product.try(:price)
+                  td= sub_total            
+
+          hr
+            .pull-right.sub-total
+              span
+                label
+                  | Total Quantity:                
+                label.ml-10
+                  = total_quantity
+              span.ml-30
+                label
+                  | Grand Total:                
+                label.ml-10  
+                  = grand_total
+
+            .pull-left
+              a#inboundAll.btn.btn-default.btn-primary href="javascipt:;"
+                | 全部入库

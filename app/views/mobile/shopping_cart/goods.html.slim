@@ -1,0 +1,64 @@
+= javascript_include_tag 'mobile/shopping_cart'
+.panel.panel-default
+  .panel-heading.clearfix
+    .pull-left
+      i.fa.fa-shopping-cart
+      span.ml-5= @live_show.subject.truncate(18)
+    .pull-right.order-count
+      span.text-muted.editMode 编辑
+  ul.list-group
+    - @goods.each do |good|
+      li.list-group-item.product.clearfix data-good_id=good.id data-sku_id=good.sku_id
+        .pull-left
+          .circle.mt-20
+        .pull-left.ml-10
+          = image_tag good.product.cover.resource_url, size: '60x60'
+        .pull-left.ml-10.info
+          .text= good.product.name_en
+          .text-muted= good.product.description
+          .text-muted= good.sku.prop_to_text
+        .pull-right.price
+          .quantity
+            .text
+              i.fa.fa-rmb 
+              span.clearingPrice.ml-2.rmb= good.product.clearing_price          
+            .input-group.mt-5
+              .input-group-btn.reduce
+                button.btn.btn-default -
+              input.form-control.goodQuantity type='text' value=good.quantity
+              .input-group-btn.increase
+                button.btn.btn-default +
+          .remove.mt-5
+            a.btn.btn-warning.btn-xs
+              i.fa.fa-trash 
+              span.ml-5 删除             
+
+    li.list-group-item.clearfix
+      .pull-right
+        span.mr-2 共
+        span.totalQuantity= @total_quantity
+        span.ml-2 件商品
+
+        span.mr-2.ml-20 总计：
+        i.fa.fa-rmb
+        span.totalAmount.ml-2= @total_amount
+  .panel-footer.clearfix
+    .operation.pull-left.clearfix.toggleAll
+      .circle.pull-left
+      span.ml-5.pull-left 全选
+    .pull-right.go-check
+      a.check href="#this"
+        | 去结算(<span class='clearingQuantity'>0</span>)
+      a.destroy_all href="#this" 删除
+
+    .pull-right.clearfix.go-pay
+      .pull-left
+        .text-danger
+          span 总计：
+          i.fa.fa-rmb
+          strong.clearingAmount.ml-2 0.0
+
+        .text-muted 不含运费, 运费将在寄出时收取
+
+    = hidden_field_tag :private_token, params[:token]
+    = hidden_field_tag :live_show_id, @live_show.id

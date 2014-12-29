@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>Untitled Document</title>
+<style>
+	body{background-color: #fff;margin: 0px;padding: 0px;}
+	.tab{height: 46px;border-bottom: solid 1px #ccc;background-color: #f1f1f1;}
+	.tab ul{list-style: none;margin: 0px;padding: 0px;width: 90%;margin: auto;display: block;}
+	.tab ul li{float: left;width: 33%;}
+	.tab ul li#current a{color: #ff4600;border-bottom: solid 3px #ff4600;}
+	.tab ul li a{color: #929292;line-height: 46px;font-size: 14px;text-decoration: none;text-align: center;display: block;}
+	
+	
+	.text_box{border-bottom: solid 1px #f1f1f1;padding: 15px 20px;}
+	.text_box h1{font-size: 16px;margin: 0px;padding: 0;color: #454545;background: url(<%= asset_path('icon.png') %>) left center;background-repeat: no-repeat;-webkit-background-size: 14px 14px; padding-left: 20px;}
+	.text_box p{padding: 0px;margin: 0px;color: #929292;font-size: 12px;line-height: 18px;margin-top: 5px;}
+</style>
+</head>
+
+<body>
+	<div class="tab">
+		<ul>
+			<li><a href="/cpanel/faqs/1">产品简介</a></li>
+			<li><a href="/cpanel/faqs/2">购买相关</a></li>
+			<li id="current"><a href="/cpanel/faqs/3">联系方式</a></li>
+		</ul>
+	</div>
+	<div class="text_box">
+		<h1>你们的APP好烂！</h1>
+		<p>请发邮件到<strong style="color:#ff4600;">biran@shopshow.com</strong>，这哥们的职责就是被吐槽。。。。</p>
+	</div>
+	<div class="text_box">
+		<h1>你们的APP好棒，我们要合作！</h1>
+		<p>请发邮件到<strong style="color:#ff4600;">theo@shopshow.com</strong>， 美女只听好消息。</p>
+	</div>
+
+</body>
+</html>

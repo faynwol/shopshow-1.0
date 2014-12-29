@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+html
+  head
+    title ShopShow
+    = stylesheet_link_tag    'mobile/app', media: 'all'
+    = javascript_include_tag 'application'  
+    meta name="keywords" content="#{@meta_keywords}"
+    meta name="description" content="#{@meta_description}"  
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta name="applicable-device" content="pc,mobile"
+    = favicon_link_tag
+    = csrf_meta_tags    
+  body class="#{controller_name}-#{action_name}"
+    = yield

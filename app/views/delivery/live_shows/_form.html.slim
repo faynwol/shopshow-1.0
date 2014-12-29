@@ -1,0 +1,50 @@
+= javascript_include_tag 'delivery/live_show'
+
+.page-header
+  h3.clearfix 创建直播专场
+  .text-muted * 号为必填项
+  hr
+.page-content
+  = simple_form_for @live_show, url: form_url, html: { class: 'form-horizontal' } do |f|
+    .form-group
+      .col-sm-2
+      .col-sm-6.preview.clearfix
+        - if @live_show.preview.blank?
+          .plus
+            = f.file_field :preview, as: :file
+        - else
+          .image-preview
+            img width="300" height="180" src="#{@live_show.preview_url}"
+            .ops
+              button.btn.btn-default type="button"
+                i.fa.fa-trash.mr-5
+                span 删除
+          .plus style="display:none;"
+            = f.file_field :preview, as: :file
+    = f.input :subject, wrapper: :horizontal_form
+    hr
+    = f.input :location, wrapper: :horizontal_form
+    hr
+    = f.input :description, wrapper: :horizontal_form, as: :text do
+      = f.input_field :description, class: 'form-control'
+      .text-muted.mt-5: small 例如 “低价 Levis's 牛仔裤，超值丝芙兰全品类”
+    hr
+    = f.input :start_time, wrapper: :horizontal_form_xs, as: :string, id: "start_time"
+    hr
+    = f.input :countdown, wrapper: :horizontal_form_xs, as: :string  
+      = f.input_field :countdown, class: 'form-control'
+      .text-muted.mt-5: small 以分钟为单位 例如(15)          
+    hr
+    = f.input :html_url, wrapper: :horizontal_form_xs
+    hr
+    = f.input :exchange_rate, wrapper: :horizontal_form_xs do
+      = f.input_field :exchange_rate, class: 'form-control'
+      .mt-5
+        small: a href='#' 实时外汇牌价     
+    hr
+    .form-group
+      label.control-label.col-sm-2
+      .col-sm-2
+        button.btn.btn-success.btn-block.btn-lg type='submit'
+          i.fa.fa-check
+          span.ml-5 保存

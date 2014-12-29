@@ -1,0 +1,3 @@
+class InviteToken < Token
+  
+end

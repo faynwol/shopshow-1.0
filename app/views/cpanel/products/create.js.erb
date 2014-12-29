@@ -1,0 +1,6 @@
+<%- if @product.errors.empty? %>
+  $('.postProduct').button('reset');
+  $('.message-box textarea').val('<%= @product.id %>');
+  $('#product').addClass('hide');
+  $('#reply').removeClass('hide').show();
+<% end -%>

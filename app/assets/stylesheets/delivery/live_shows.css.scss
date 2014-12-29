@@ -1,0 +1,191 @@
+@import "bootstrap-datetimepicker.min";
+
+.live_shows-show, .messages-index, .live_shows-shopping_list {
+  .detail {
+    padding: 10px 0px;
+  }
+
+  .detail .cover {
+    img { 
+      max-width: 300px; 
+      border-radius: 4px;
+    }
+  }
+
+  .detail .info {
+    margin-left: 30px;
+  }
+
+  .detail .info h4 {
+    margin-bottom: 5px;
+  }
+
+  .detail .info .start {
+    font-weight: bold;
+    height: 16px;
+    font-size: 16px;
+    padding-top: -10px;    
+  }
+
+  .detail .info .start .text-warning {
+    display: inline-block;    
+    background-color: transparent;
+    background-image: image-url('delivery/bg.png');
+    background-repeat: no-repeat;
+    background-position: -40px -76px;
+    width: 100px;
+    padding-left: 18px;
+    margin-left: 20px;
+  }    
+
+  .detail .info .fa-map-marker {
+    font-size: 30px;
+  }
+
+  .detail .info .text-warning {
+    color: $brand-warning;
+  }
+
+  .detail .info .location {
+    background-color: transparent;
+    background-image: image-url('delivery/bg.png');
+    background-repeat: no-repeat;
+    background-position: -160px -40px;
+    padding-left: 25px;
+    padding-top: 3px;
+    width: 100%;
+    height: 28px;
+  }
+
+  .detail .ss.ss-play {
+    background-position: -34px -40px;
+  }
+
+  .list-container {
+    margin-top: 20px;
+  }
+
+  .list-container .nav {
+    padding-left: 20px;
+    background-color: #F1F1F1;
+  }
+
+  .list-container .nav li {
+    a {
+      font-size: 16px;
+      color: #000;
+    }
+
+    a span.badge {
+      font-size: 14px;
+    }
+
+    &.active > a {
+      border-right: none;
+      border-left: none;
+      border-top: none;
+      border-bottom: 2px solid #FFF;
+      color: $brand-warning;
+    }
+  }
+
+  .list-container .list-options {
+    margin-top: 15px;
+  }
+
+  .list-container table {
+    margin-top: 15px;
+
+    thead {
+      background-color: #F1F1F1;
+    }
+
+    th, td {
+      text-align: center;
+    }
+
+    td.price {
+      font-weight: bold;
+      font-size: 16px;
+      color: $brand-warning;
+    }
+  }
+}
+
+.live_shows-new, .live_shows-create, .live_shows-edit, .live_shows-update {
+  .preview {
+    padding-left: 0px;
+  }
+
+  .preview > ul > li {
+    position: relative;
+    &:hover button {
+      display: inherit;
+    }
+  }
+
+  .preview > ul > li > button {
+    position: absolute;
+    top: 80px;
+    left: 5%;
+    width: 90%;
+    display: none;
+  }
+
+  .preview {
+    padding-left: 15px;
+  }
+
+  .preview .plus {
+    width: 300px;
+    height: 180px;
+    background-image: image-url('delivery/preview.jpg');
+    background-repeat: no-repeat;
+    cursor: pointer;    
+    position: relative;
+  }
+
+  .preview .image-preview {
+    width: 300px;
+    height: 180px;
+    position: relative;
+
+    .ops {
+      position: absolute;
+      top: 73px;
+      left: 113px;
+    }
+  }  
+
+  .preview .plus input {
+    position: absolute;
+    top: 0;
+    right: 0; /* not left, because only the right part of the input seems to
+                 be clickable in some browser I can't remember */
+    cursor: pointer;
+    opacity: 0.0;
+    filter: alpha(opacity=0); /* and all the other old opacity stuff you
+                                 want to support */
+    font-size: 300px; /* wtf, but apparently the most reliable way to make
+                         a large part of the input clickable in most browsers */
+    height: 180px;
+    width: 300px;
+  }
+
+  .img-thumbnail {
+    border: 0px solid;    
+  }  
+
+
+}
+
+
+
+
+
+
+
+
+
+
+

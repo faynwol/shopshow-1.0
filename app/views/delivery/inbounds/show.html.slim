@@ -1,0 +1,58 @@
+.page-header
+  h1.clearfix
+    | Inbound's Skus <small>Inbound No. #{@inbound.channel_inbound_no}</small>
+    .pull-right
+      a.btn.btn-primary.queryInbound href="#this" data-inbound_id="#{@inbound.id}"
+        i.fa.fa-refresh
+        span.ml-5 刷新入库状态
+
+.page-content
+  table.table.table-striped.table-hover
+    thead
+      tr
+        th #
+        th SKU
+        th 商品图
+        th 商品名称
+        th 商品描述
+        th 重量(KG)
+        th 件数
+        th 单价(美元)
+        th 总价(美元)
+        th 入库件数
+    tbody
+      - @inbound_skus.each_with_index do |is, i|
+        tr
+          td= i + 1
+          td= is.sku.sku_id.upcase
+          td
+            = image_tag is.product.cover.resource_url, size: '40x40'
+          td= is.product.name_en
+          td= is.product.description
+          td= is.sku.weight
+          td= is.quantity
+          td= is.product.price
+          td= is.calc_in_total
+          td= is.inbounded_quantity
+      tr.warning
+        td Total
+        td colspan="5"
+        td= @inbound.quantity
+        td
+        td= @inbound_skus.map{ |is| is.calc_in_total }.sum
+        td= @inbound_skus.sum(:inbounded_quantity)
+
+javascript:
+  $(function () {
+    $('a.queryInbound').click(function () {
+      var $this = $(this);
+      var inbound_id = $this.data("inbound_id");
+      var url = "#{query_delivery_inbound_path(@inbound)}";
+
+      $.post(url, function (res) {
+        if (res.success) {
+          window.location.reload();
+        }
+      }, 'json');
+    });
+  });

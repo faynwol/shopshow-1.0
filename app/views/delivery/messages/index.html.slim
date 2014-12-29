@@ -1,0 +1,26 @@
+= javascript_include_tag 'delivery/live_show'
+.page-content
+  = render "delivery/live_shows/detail"
+  .list-container
+    = render "delivery/live_shows/nav"
+    .list-content
+      .list-options.clearfix
+        .pull-left
+          .btn-group
+            a.btn.btn-small.btn-blue.active.icon: i.fa.fa-refresh
+            a.btn.btn-small.btn-blue href="#{url_for(request.params)}" 刷新
+      hr
+      .list-container
+        - @messages.each do |message|
+          .list-item.clearfix
+            .avatar.pull-left
+              img.img-circle src=message.user.avatar_url width="50" height="50"
+            .body.pull-left.ml-10
+              strong= message.user.name
+              = format_message message
+            .pull-right
+              .text-muted= message.created_at.strftime("%F %T")
+          hr
+      .paginate
+        = will_paginate @messages, renderer: BootstrapPagination::Rails, inner_window: 2
+      

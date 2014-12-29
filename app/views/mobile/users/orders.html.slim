@@ -1,0 +1,54 @@
+.panel.panel-default
+  .panel-heading.clearfix
+    .pull-left
+      i.fa.fa-shopping-cart
+      span.ml-5= @live_show.subject.truncate(18)
+    .pull-right.order-count
+      span.label.label-danger= @orders.count
+  ul.list-group
+    - @orders.each do |order|
+      li.list-group-item
+        .order-title.clearfix
+          .pull-left
+            i.fa.fa-file-text-o
+            span.ml-5 订单号码
+            span.ml-5= order.id.upcase
+          .pull-right.order-amount
+            i.fa.fa-rmb
+            span.ml-2= order.amount
+        .items
+          - order.order_items.each do |item|
+            - product = item.product
+            .item.clearfix
+              .pull-left
+                = image_tag product.cover.resource_url, size: '40x40'
+              .pull-left.ml-10.info
+                = product.description
+                .text-muted= item.sku.prop.values.join(',')
+              .pull-right.price
+                .text
+                  i.fa.fa-rmb 
+                  span.ml-2.rmb= product.clearing_price
+                .text-muted
+                  span= "x #{item.quantity}"
+
+        - if order.cancelable?
+          .pay
+            a.btn.btn-warning.payOrder href="sbtn://pay/#{order.id}"
+              i.fa.fa-rmb 
+              span.ml-2= order.amount
+              span.ml-5 去支付
+            a.btn.btn-default.ml-10.cancelOrder href="sbtn://cancel/#{order.id}"
+              i.fa.fa-remove
+              span.ml-5 取消订单
+        - elsif order.paid?
+          .pay
+            a.btn.btn-success disabled=true
+              i.fa.fa-check
+              span.ml-5 已支付          
+        - elsif order.cancel?
+          .pay
+            a.btn.btn-default disabled=true
+              i.fa.fa-trash-o
+              span.ml-5 已取消  
+

@@ -1,0 +1,27 @@
+.bs-docs-section
+  .page-header Orders
+
+  table.table.table-striped
+    thead
+      tr
+        th #
+        th amount
+        th user
+        th original_amount
+        th discount
+        th created at
+        th items
+    tbody
+      - @orders.each do |o|
+        tr
+          td= o.id
+          td= o.amount
+          td= o.user.name
+          td= o.original_amount
+          td= o.discount
+          td= o.created_at.strftime('%F %T')
+          td 
+            a href="#{cpanel_order_items_path(o)}"= o.order_items.count
+
+
+

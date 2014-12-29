@@ -1,0 +1,84 @@
+= javascript_include_tag 'delivery/products'
+.page-header
+  h3.clearfix= @live_show.subject
+  .text-muted * 号为必填项
+  hr
+.page-content
+  .clearfix
+    .col-sm-2
+    .col-sm-6.photos.clearfix data-loading_image="#{image_path('delivery/ajax-loader.gif')}"
+      ul.list-unstyled.clearfix.pull-left 
+        - @materials.order('created_at desc').each do |material|
+          li.pull-left.mr-10.mb-10 id=material.id class=('is-cover' if material.id == @product.cover_id)
+            = image_tag material.resource_url, size: '120x120'
+            .btns
+              button.btn.btn-warning.btn-block.btn-xs type='button'
+                i.fa.fa-check 
+                span 设为封面
+              button.btn.btn-default.btn-block.btn-xs type='button'
+                i.fa.fa-trash 
+                span 删除
+            .cover-icon
+        .plus.pull-left
+          = file_field_tag :material, id: 'uploadButton', multiple: true
+  hr
+  = simple_form_for @product, url: form_url, html: { class: 'form-horizontal' } do |f|
+    = f.input :name_en, wrapper: :horizontal_form
+
+    hr
+    = f.input :description, wrapper: :horizontal_form, as: :text do
+      = f.input_field :description, class: 'form-control'
+      .text-muted.mt-5: small 此描述讲展示给用户，请详细描述产品信息
+
+    hr
+    = f.input :price, wrapper: :horizontal_form do
+      .input-group
+        span.input-group-addon $
+        = f.input_field :price, class: 'form-control'
+      .text-muted.mt-5
+        small 参考人民币：
+        span.text-danger ￥#{@product.clearing_price || 0}
+
+    hr
+
+    = f.simple_fields_for :specifications do |s|
+      .form-group
+        .clearfix
+          label.control-label.col-sm-2 产品规格
+          .col-sm-2
+            = s.input_field :name, class: "form-control", placeholder: "颜色"
+          .col-sm-4
+            = s.input_field :value, class: "form-control", placeholder: "黑色，红色"
+    .form-group
+      label.control-label.col-sm-2
+      .col-sm-6
+        .text-muted: small 此描述讲展示给用户，请详细描述产品信息, 目前最多可添加两组
+    hr
+    .form-group class=(@product.errors['weight'].any? ? 'has-error' : nil)
+      .clearfix
+        = f.label :weight, class: 'control-label col-sm-2'
+        .col-sm-4
+          = f.input_field :weight, class: 'form-control'
+        .col-sm-2
+          = f.input_field :weight_unit, class: 'form-control', collection: Product::WEIGHT_UNITS, include_blank: false
+
+      - if @product.errors['weight'].any?
+        .clearfix
+          .col-sm-2
+          .col-sm-4
+            span.help-block= @product.errors['weight'].first
+    hr
+    .form-group 
+      = f.label :status, class: 'control-label col-sm-2'
+      .col-sm-3
+        = f.input_field :status, class: 'form-control', collection: Product.statuses_i18n.invert, include_blank: false
+      = f.input_field :picture_ids, as: :hidden
+      = f.input_field :live_show_id, as: :hidden
+      = f.input_field :cover_id, as: :hidden
+    hr
+    .form-group
+      label.control-label.col-sm-2
+      .col-sm-2
+        button.btn.btn-success.btn-block.btn-lg type='submit'
+          i.fa.fa-check
+          span.ml-5 保存

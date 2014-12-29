@@ -1,0 +1,28 @@
+.detail.clearfix
+  .pull-left.cover
+    img src="#{@live_show.preview_url}" width="300" height="180"
+  .pull-left.info
+    h4= @live_show.subject
+    p.text-muted= @live_show.description || "没有添加专场介绍"
+    p.start
+      span 开始时间：#{@live_show.start_time.strftime('%Y-%m-%d')}
+      span.text-warning= @live_show.start_time.strftime('%H:%M:%S')
+    .location.text-muted.mt-50= @live_show.location || "没有添加地点"
+  .pull-right
+    .clearfix
+      .btn-group
+        a.btn.btn-blue.active.icon href=edit_delivery_live_show_path(@live_show)
+          i.ss.ss-edit
+        a.btn.btn-blue href=edit_delivery_live_show_path(@live_show) 编辑信息
+    - if @live_show.status == 'pending' || @live_show.status=='previewing'
+      .clearfix.mt-10
+        .btn-group
+          a.btn.btn-green.active.icon href=open_delivery_live_show_path(@live_show) onclick="{if(confirm('确定开启直播室?')){return true;}return false;}"
+            i.ss.ss-play
+          a.btn.btn-green href=open_delivery_live_show_path(@live_show) onclick="{if(confirm('确定开启直播室?')){return true;}return false;}" 开始直播
+    - if @live_show.status == 'onair'
+      .clearfix.mt-10
+        .btn-group
+          a.btn.btn-red.active.icon onclick="App.LiveShow.closeLiveShow('#{@live_show.id}', '#{@live_show.countdown}')"
+            i.ss.ss-power-off
+          a.btn.btn-red onclick="App.LiveShow.closeLiveShow('#{@live_show.id}', '#{@live_show.countdown}')" 结束直播

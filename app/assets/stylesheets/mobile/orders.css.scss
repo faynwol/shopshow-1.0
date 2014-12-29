@@ -1,0 +1,304 @@
+body {
+  background-color: #DEDEDE;
+}
+
+.info {
+  width: 160px;
+  font-size:12px;
+}
+
+.info .fa-rmb, .info span.rmb {
+  color: $brand-warning;
+}
+
+.panel, .panel-default {
+  background-color: #DEDEDE;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  padding-bottom: 50px;
+}
+
+span.label-danger {
+  border-radius: 10px;
+}
+
+.text-danger {
+  color: $brand-warning;
+}
+
+.price {
+  text-align: right;
+  font-size: 12px;  
+  .text {
+    font-weight: bold;
+  }
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  border: 1px solid #CCC;
+}
+
+.circle.checked {
+  background-color: $brand-warning;
+  border: none;
+  color: #FFF;
+  text-align: center;
+}
+
+.panel > .list-group:last-child .list-group-item:last-child {
+  border-radius: 0;
+}
+
+// users' orders list
+.orders-index {
+  .order-count { margin-top: -3px; }
+
+  .pay {
+    padding-left: 10px;
+    padding-bottom: 20px;
+  }
+
+  li.list-group-item {
+    margin-top: 20px;    
+    padding: 0;
+  }
+
+  .items .item {
+    border-bottom: 1px dashed #CCC;
+    margin-bottom: 10px;
+    padding: 0px 15px; 
+    padding-bottom: 10px;
+  }
+
+  .order-title {
+    padding: 10px 10px;
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 10px;
+  }
+
+  .list-group {
+    background-color: #DEDEDE;
+  }
+
+  .order-amount {
+    color: #FF4600;
+    font-weight: bold;    
+  }  
+}
+
+@mixin static_footer {
+  .panel-footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    padding: 0px;
+    z-index: 1000;
+    border-top: none;
+  }
+
+  .panel-footer .operation {
+    margin-top: 16px; 
+    padding-left: 10px;
+  }
+
+  .panel-footer .go-pay {
+    text-align: right;
+    padding: 6px 5px 5px 0px;
+    max-width: 180px;
+  }
+
+  .panel-footer .go-pay .text-muted {
+    font-size: 9px !important;
+  }
+
+  .panel-footer .go-check {
+    height: 50px;
+    z-index: 1000;    
+  }
+
+  .panel-footer .go-check a {
+    width: 76px;
+    height: 100%;
+    text-align: right;
+    display: block;
+    background-color: $brand-warning;
+    border-left: 4px solid #DE0601;
+    color: #fff;
+    text-align: center;
+    padding-top: 16px;
+    text-decoration: none;
+    &.destroy_all {
+      background-color: red;
+    }
+    &.disable {
+      background-color: #F1F1F1;
+      border-left: 4px solid #CCC;
+      color: #999;      
+    }
+  }  
+}
+
+// users' shopping cart
+.shopping_cart-goods {
+  padding-bottom: 60px;
+
+  .info {
+    width: 120px;
+    font-size:12px;
+  }    
+
+  .list-group {
+    margin-top: 20px;
+  }
+
+  li.list-group-item.product {
+    padding: 20px 15px;
+  }
+
+  .list-group-item .quantity {
+    width: 68px;
+    .btn {
+      width: 24px; 
+      color: #777; 
+      height: 24px;
+      padding: 0;
+      background-color: #EFEFEF;      
+    }
+
+    .form-control { 
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      text-align: center;
+    }
+  }
+
+  .list-group-item .remove {
+    display: none;
+  }
+
+  @include static_footer;
+}
+
+// 确认订单页面
+.shopping_cart-confirm {
+  @include static_footer;
+
+  .panel-body {
+    padding: 0px;
+  }
+
+  .receipient {
+    background-color: #FFF;
+    padding: 15px 10px 15px 10px;
+    border-bottom: 1px solid #CCC;
+  }
+
+  .receipient .marker {
+    width: 36px;
+    height: 36px;
+    background-size: 36px 36px;
+    background-image: image-url('mobile/marker.png');
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    margin-top: 4px;
+  }
+
+  .receipient .detail {
+    width: 80%;
+    margin-left: 8px;
+  }
+
+  .add_recipient {
+    text-decoration: none;
+  }
+
+  .add_recipient .receipient .add {
+    border: 2px dashed #CCC;
+    text-align: center;
+    padding: 10px 0px;      
+    color: #777;
+  }  
+
+  .receipient .detail .name {
+    font-size: 16px;
+    color: #000;
+  }
+
+  .receipient .detail .text-muted {
+    font-size: 12px;
+  }
+
+  .receipient .pull-right {
+    // padding-top: 5%;
+    i.fa { color: #989898; }
+  }
+
+  ul.list-group .list-group-item {
+    padding: 10px 10x;
+    &:last-child {
+      border-bottom: 1px solid #CCC;
+    }
+  }
+
+  .remark {
+    padding: 10px;
+    margin-top: 5px;
+    background-color: #FFF;
+    border-bottom: 1px solid #CCC;
+  }
+
+  .remark textarea {
+    border-radius: 0px;
+    background-color: #F6F6F6;
+    height: 80px;
+  }
+
+  .note {
+    padding: 10px 10px;
+  }
+
+  .note .title {
+    color: #525252;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .note .check {
+    color: #525252;
+    text-align: right;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

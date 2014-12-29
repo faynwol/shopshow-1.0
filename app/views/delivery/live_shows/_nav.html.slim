@@ -1,0 +1,11 @@
+ul.nav.nav-tabs
+  li class=('active' if params[:action] == 'show')
+    a href="#{delivery_live_show_path(@live_show)}"
+      span 产品管理
+      span.badge.ml-5= @live_show.products.count
+  li class=('active' if params[:action] == 'index')
+    a href="#{delivery_live_show_messages_path(@live_show)}"
+      span 直播实录
+  li class=('active' if params[:action] == 'shopping_list')
+    a href="#{shopping_list_delivery_live_show_path(@live_show)}"
+      span 采购清单

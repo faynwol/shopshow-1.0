@@ -1,0 +1,21 @@
+.bs-docs-section
+  .page-header OrderItems
+
+  table.table.table-striped
+    thead
+      tr
+        th #
+        th order_id
+        th product
+        th number
+        th created at
+    tbody
+      - @items.each do |i|
+        tr
+          td= i.id
+          td= i.order_id
+          td= i.product.name.truncate(20)
+          td= i.number
+          td= i.created_at.strftime('%F %T')
+
+

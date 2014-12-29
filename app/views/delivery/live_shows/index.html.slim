@@ -1,0 +1,36 @@
+.page-header
+  h1.clearfix
+    | 我的直播场次
+    .pull-right
+      .btn-group
+        a.btn.btn-green.active.icon: i.fa.fa-plus
+        a.btn.btn-green href=new_delivery_live_show_path 创建直播专场     
+.page-content
+  table.table
+    thead
+      tr
+        th #
+        th 主题
+        th 开始时间
+        / th 结束时间
+        th 预展URL
+        th 汇率
+        th 创建时间                
+        th 状态
+        th 操作
+    tbody
+      - @live_shows.each_with_index do |lv, i|
+        tr
+          td= i + 1
+          td
+            a href="#{delivery_live_show_path(lv)}"= lv.subject
+          td= lv.start_time.strftime('%F %T')          
+          td= lv.html_url
+          td= lv.exchange_rate
+          td= lv.created_at.strftime('%F %T')          
+          td
+            - klass = (lv.status == 'onair' ? 'btn-success' : 'btn-danger')
+            a.btn.btn-xs class="#{klass}"
+              = lv.readable_status
+          td
+            a href=edit_delivery_live_show_path(lv) 编辑 

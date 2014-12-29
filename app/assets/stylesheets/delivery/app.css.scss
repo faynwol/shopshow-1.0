@@ -1,0 +1,209 @@
+$brand-warning: #FF4600;
+$input-border-radius: 0px;
+$border-radius-base: 0px;
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
+@import "bootstrap";
+@import "artDialog-without-seajs/ui-dialog";
+@import "helpers";
+@import "login";
+@import "orders";
+@import "live_shows";
+@import "products";
+@import "messages";
+
+
+table.table {
+  font-size: 12px;
+  > thead > tr > th {
+    border-bottom: 0px;
+  }
+}
+
+.panel.panel-danger {
+  border: 1px solid #D8D8D8;
+  .panel-heading {
+    background-color: #df3e3e;
+    color: #FFF;
+    border: 1px solid #a00;
+    color: #fff;
+    text-shadow: 0 -1px 0 #900;    
+  }
+}
+
+.btn.btn-lg {
+  border-radius: $border-radius-base;
+}
+
+select.form-control {
+  -webkit-appearance: none; /* gets rid of default appearance in Webkit browsers*/
+  -moz-appearance: none; /* Get rid of default appearance for older Firefox browsers */
+  -ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
+  appearance: none;
+  background-image: image-url('delivery/select_ico.jpg');
+  background-repeat: no-repeat;
+  background-position: right top;
+  padding-right: 42px;
+}
+
+// Layout
+html, body {
+  height: auto;
+}
+
+#main {
+  background-color: #F6F6F6;
+  min-height: 100vh;  
+  height: 100%;
+}
+
+$left-primary-color: #293541;
+
+// Layout Left Pane
+#main .left-pane {
+  width: 200px;
+  float: left;
+  left: auto;
+  height: 100%;
+  background-color: $left-primary-color;
+  position: fixed;
+}
+
+#main .left-pane .user {
+  padding: 20px 15px;
+  background-color: #A58BCF;
+  color: #FFF;
+  span { font-size: 18px; }
+  .text-muted {
+    font-size: 12px;
+    color: #DDD;
+  }
+}
+
+#main .left-pane .logo {
+  width: 200px;
+  height: 101px;
+  background-image: image-url("delivery/logo.jpg");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+}
+
+#main .left-pane .menu {}
+
+.menu .list-group .list-group-item {
+  border-radius: 0px;
+  padding: 20px 15px;
+  background: none;
+  border: none;
+  color: #9D9EA3;
+  border-bottom: 1px solid darken($left-primary-color, 4%);
+
+  &:hover {
+    color: #FFF;
+  }
+
+  &.active {
+    background-color: darken($left-primary-color, 4%);
+    background-image: image-url('delivery/dot.gif');
+    background-repeat: no-repeat;
+    background-position: center right;
+    color: #FFF;
+  }
+
+  &.active span.badge { 
+    color: #FFF; 
+  }
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  span.badge {
+    margin-right: 20px;
+    background-color: #ED515D;
+  }
+
+  & > i.fa {
+    font-size: 18px;
+  }
+}
+
+// Layout Right
+.content {
+  float: left;
+  width: calc(100% - 200px);
+  margin-top: 71px;
+  margin-left: 200px;
+  margin-bottom: 20px;
+}
+
+// Header
+.content .navbar {
+  left: 200px;
+  background-color: #FFF;
+  border: none;
+  border-bottom: 1px solid #DDD;
+  box-shadow: 0 2px 2px 0 #E7E7E7;
+  border-radius: 0;
+
+  .navbar-right {
+    margin-right: 0px;
+  }
+}
+
+.content .navbar .breadcrumb {
+  background-color: #FFF;
+  margin-bottom: 0px;
+  border-radius: 0px;
+  padding-top: 15px;
+  color: #777;
+}
+
+// Page Wrapper
+#page-wrapper {
+  width: 96%;
+  margin: 0 auto;
+  padding: 10px 20px;
+  background-color: #FFF;
+  height: 100%;
+}
+
+#page-wrapper .page-header {
+  margin: 0 0 20px 0;
+  h1 { margin-top: 10px; }
+  border-bottom: none;
+}
+
+td {
+  max-width: 300px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

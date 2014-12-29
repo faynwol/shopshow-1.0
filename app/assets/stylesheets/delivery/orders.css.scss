@@ -1,0 +1,30 @@
+// Order List
+.orders-index {
+  table thead th {
+    text-align: center;
+  }
+
+  table tbody {
+    border-top: 1px solid #CCC;
+  }
+
+  table tbody td {
+    border: 1px solid #DDD;
+  }
+
+  table tbody .gap td {
+    border: none;
+  }
+
+  table tbody .remark td {
+    text-align: right;
+  }
+
+  table tbody .order-item {
+    h5 { 
+      margin-top: 0px;
+      margin-bottom: 2px;
+    }
+  }
+}
+

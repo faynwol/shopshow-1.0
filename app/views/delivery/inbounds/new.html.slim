@@ -1,0 +1,81 @@
+.page-header
+  h1.clearfix
+    | New Inbound
+    .pull-right
+      = form_tag new_delivery_inbound_path(live_show_id: params[:live_show_id]), method: :get do
+        = select_tag :live_show_id, options_from_collection_for_select(LiveShow.all, "id", "subject", @live_show.try(:id)), class: 'form-control', prompt: '--请选择直播场次--'
+.page-content
+  - if @live_show.blank?
+    p.text-center.text-muted 请选择直播场次
+  - else
+    table.table.table-striped.table-hover
+      thead
+        tr
+          th #
+          th SKU
+          th 商品图
+          th 商品名称
+          th 商品描述
+          th 商品规格
+          th 重量(KG)
+          th 件数
+          th 单价(美元)
+          th 总价(美元)
+      tbody
+        - @order_items.each_with_index do |item, i|
+          tr.sku-list sku-id="#{item.sku.try(:id)}" sku-amount=item.quantity
+            td= i + 1
+            td= item.sku.sku_id.upcase
+            td
+              = image_tag item.product.cover.resource_url, size: '40x40'
+            td= item.product.name_en
+            td= item.product.description
+            td= item.sku.prop_to_text
+            td= item.sku.weight
+            td= item.quantity
+            td= item.product.price
+            td= item.calc_in_total
+
+      tr.warning
+        td 总计
+        td colspan="6"
+        td= @order_items.map(&:quantity).sum
+        td
+        td= @order_items.map{ |is| is.calc_in_total }.sum  
+
+    .footer.clearfix
+      - if @live_show.inbounds.blank?
+        a#inboundAll.btn.btn-danger.btn-lg.pull-right href="#" 
+          i.fa.fa-warning 
+          span.ml-10 生成入库清单
+      - else        
+        .pull-right
+          i.fa.fa-check
+            span.ml-10 已经全部预报入库
+
+javascript:
+  $(function () {
+    $('form select').change(function () {
+      $(this).parent().submit();
+    });
+
+
+    $('a#inboundAll').click(function(){
+      var skus = [];
+
+      $('tr.sku-list').each(function(){
+        var $this = $(this);
+        skus.push({
+          sku_id : $this.attr('sku-id'),
+          amount : $this.attr('sku-amount')
+        })
+      });
+      
+      $(this).button('loading');
+      $.post('/delivery/inbounds', { skus: skus, live_show_id: "#{@live_show.try(:id)}" }, function(res){      
+        window.location.reload();
+      })
+    });
+      
+
+  });

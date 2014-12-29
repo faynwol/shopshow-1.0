@@ -1,0 +1,27 @@
+doctype html
+html xmlns="http://www.w3.org/1999/xhtml" 
+  head
+    meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type"
+    title Untitled Document
+    link href="style.css" rel="stylesheet" type="text/css"
+  body
+  	css:
+      body{margin: 0px;padding: 0px;}
+      .banner img{width: 100%;}
+      .product_box{width: 46%;float: left;margin: 10px 2% 10px 2%;}
+      .product_box img{width:100%;}
+      .product_name_box {background-color: #f1f1f1;border-bottom: solid 1px #cccccc;height: 110px;}
+      .product_name_box h1{margin: 0px;padding: 10px;font-size: 14px;color: #454545;}
+      .product_name_box p{margin: 0px;padding: 0px 10px 10px 10px;font-size: 16px;color: #ff4e00;}
+			 	
+    .banner
+      = image_tag "costco/banner.jpg"    
+    - @products.each do |p|
+	    .product_box
+	      = image_tag p.cover.resource_url, size: '150x150'
+	      .product_name_box
+	        h1= p.name_en.truncate(55)
+	        p 
+	        	| $
+	        	= p.price

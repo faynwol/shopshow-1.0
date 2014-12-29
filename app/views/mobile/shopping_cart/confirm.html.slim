@@ -1,0 +1,65 @@
+.panel.panel-default
+  - if @recipient.present?
+    a href="sbtn://fake/fake?fake=fake"
+      .receipient.clearfix
+        .pull-left
+          .marker
+        .pull-left.detail
+          .name 收货人：#{@recipient.name}  (#{@recipient.tel})
+          .text-muted.address.mt-5= @recipient.address_full
+        .pull-right
+          i.fa.fa-chevron-right
+  - else
+    a.add_recipient href="sbtn://fake/fake?fake=fake"
+      .receipient.clearfix
+        .add
+          i.fa.fa-plus
+          span.ml-10 添加收货人地址
+
+  ul.list-group.mt-5
+    - @goods.each do |good|
+      li.list-group-item.product.clearfix
+        .pull-left
+          = image_tag good.product.cover.resource_url, size: '60x60'
+        .pull-left.ml-10.info
+          .text= good.product.name_en
+          .text-muted= good.product.description
+          .text-muted= good.sku.prop_to_text
+        .pull-right.price
+          .price
+            i.fa.fa-rmb
+            strong.ml-2= good.product.clearing_price         
+          .text-muted x#{good.quantity}
+    li.list-group-item.clearfix
+      .pull-right
+        span
+          | 共 <span class='ml-2 mr-2'>#{@total_quantity}</span> 件商品
+        span.ml-20
+          | 合计：<i class='fa fa-rmb'></i> #{@total_amount}
+
+  .remark
+    textarea.form-control#remarkContent placeholder='订单备注'
+  .note
+    .title 重要提示
+    .text-muted 1. 运费在寄送时根据实际重量收取
+    .text-muted 2. 对于可能的税费，将在实际产生后收取
+    .check.mt-20
+      input type='checkbox' checked=true
+      span.ml-2 我明白了
+
+  .panel-footer.clearfix
+    .pull-right.go-check
+      - if @recipient.present?
+        a.check href="sbtn://api/v1/orders.json?#{@build_params}" 确认
+      - else
+        a.check.disable disabled=true 确认
+
+    .pull-right.clearfix.go-pay
+      .pull-left
+        .text-danger
+          span 总计：
+          i.fa.fa-rmb
+          strong.totalAmount= @total_amount
+        .text-muted 不含运费, 运费将在寄出时收取
+
+    = hidden_field_tag :private_token, params[:token]
