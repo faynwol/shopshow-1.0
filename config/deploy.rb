@@ -3,7 +3,7 @@
 
 set :application, 'shopshow'
 # set :scm, :git
-set :repo_url, 'git@github.com:shopshow/shopshow.git'
+set :repo_url, 'git@github.com:shopshow/shopshow-1.0.git'
 # set :branch, "master"
 set :rails_env, 'production'
 set :deploy_to, -> { "/home/shopshow/www/#{fetch(:application)}" }
