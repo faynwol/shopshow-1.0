@@ -61,8 +61,8 @@ module UszcnUtils
       item_list = self.inbound_skus.collect do |is|
         {
           lu_category_id:     '',
-          name_cn:            is.product.description || is.product.name_cn,
-          name_en:            is.product.name_en,        
+          name_cn:            (is.product.description || is.product.name_cn).truncate(45),
+          name_en:            is.product.name_en.truncate(45),        
           brand_cn:           is.product.brand_cn,
           brand_en:           is.product.brand_en,        
           model_cn:           is.sku.prop_to_text,
