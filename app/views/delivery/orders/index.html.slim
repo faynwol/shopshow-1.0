@@ -42,7 +42,7 @@
                 .text-danger= oi.sku.prop_to_text
             td.text-center= oi.product.clearing_price           
             td.text-center= oi.quantity
-            td.text-center= oi.sku.weight
+            td.text-center= oi.sku.weight.to_f * oi.quantity
             - if i.zero?
               td.text-center rowspan="#{order.order_items.count}"= order.amount   
             - if i.zero?

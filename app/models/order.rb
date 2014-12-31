@@ -52,7 +52,7 @@ class Order < ActiveRecord::Base
   def carriage
     ws = 0
     self.order_items.each do |oi|    
-      ws += oi.sku.weight.to_f
+      ws += oi.sku.weight.to_f * oi.quantity
     end
     
     ws = ws * 1000.0
