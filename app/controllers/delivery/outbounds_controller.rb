@@ -25,11 +25,11 @@ class Delivery::OutboundsController < Delivery::ApplicationController
   end
 
   def query
-    outbound = Outbound.find_by id: params[:id]
-      Rails.logger.info outbound.outbound_no
-      Rails.logger.info "***********************"    
-    
+    outbound = Outbound.find_by id: params[:id]    
     ret = outbound.query_shopshow_outbound    
+    
+    Rails.logger.info ret.inspect
+    Rails.logger.info "***********************"        
     if ret["success"]
       order = Order.find_by id: outbound.order_id
       ActiveRecord::Base.transaction do 

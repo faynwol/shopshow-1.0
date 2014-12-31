@@ -103,10 +103,10 @@ module UszcnUtils
             sku.save!        
           end
           if response["data"]["state"] == "FINISHED"
-            self.status = "finish"
-            self.inbounded_quantity = grand_total
-            self.save!
-          end      
+            self.status = "finish"                      
+          end   
+          self.inbounded_quantity = grand_total
+          self.save!   
         end
       end   
     end    
