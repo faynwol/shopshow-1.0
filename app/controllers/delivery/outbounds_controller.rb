@@ -14,8 +14,7 @@ class Delivery::OutboundsController < Delivery::ApplicationController
         raise '出库出错!' if ob.notify_uszcn!.blank?
         
         success = true
-      rescue => e
-        raise e
+      rescue => e        
         success = false
         raise ActiveRecord::Rollback        
       end
@@ -27,7 +26,7 @@ class Delivery::OutboundsController < Delivery::ApplicationController
   def query
     outbound = Outbound.find_by id: params[:id]    
     ret = outbound.query_shopshow_outbound    
-    
+
     Rails.logger.info ret.inspect
     Rails.logger.info "***********************"        
     if ret["success"]

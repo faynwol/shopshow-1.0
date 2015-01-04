@@ -3,12 +3,11 @@ class Delivery::OrdersController < Delivery::ApplicationController
   before_action :find_order, except: [:index]
 
   def index
-    @live_show = LiveShow.find_by id: params[:live_show_id]
-    @orders = Order.order('user_id DESC, created_at DESC').includes(:user, :order_items, :recipient)    
-    if @live_show.present?
-      @orders = @live_show.orders.order('user_id DESC, created_at DESC').includes(:user, :order_items, :recipient)    
-    end
-
+    @live_show = LiveShow.find_by id: params[:live_show_id]     
+    @live_show = LiveShow.where('status <> ?', 'pending').first if !@live_show.present?   
+    inbounds = @live_show.inbounds
+    @inbound_finish = inbounds.present? ? ( inbounds.first.status == 'finish' ) : false
+    @orders = @live_show.orders.order('user_id DESC, created_at DESC').includes(:user, :order_items, :recipient)    
   end
 
   def check_prepare_products        
@@ -32,8 +31,7 @@ class Delivery::OrdersController < Delivery::ApplicationController
     begin      
       @order.notify_carriage
       render text: {success: true}.to_json
-    rescue => e
-      raise e
+    rescue => e      
       render text: {success: false}.to_json
     end
   end
