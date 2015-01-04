@@ -23,7 +23,8 @@
       - recipient = order.recipient
       - outbound = Outbound.find_by order_id: order.id
       tbody
-        tr.info
+        - klass = ['pending', 'cancel', 'failed'].include?(order.status) ? 'danger' : 'info'
+        tr class="#{klass}"
           td.clearfix colspan="8"
             / input type="checkbox"                      
             span.ml-5 订单编号
