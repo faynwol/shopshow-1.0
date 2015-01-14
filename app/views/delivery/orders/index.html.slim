@@ -23,14 +23,15 @@
       - recipient = order.recipient
       - outbound = Outbound.find_by order_id: order.id
       tbody
-        tr.info
+        - klass = ['pending', 'cancel', 'failed'].include?(order.status) ? 'danger' : 'info'
+        tr class="#{klass}"
           td.clearfix colspan="8"
             / input type="checkbox"                      
             span.ml-5 订单编号
             span.text-muted.ml-5= order.id.upcase
             span.ml-20 下单时间
             span.text-muted.ml-5= order.created_at.strftime('%F %T')
-            a.ml-20= order.user.name            
+            a.ml-20= order.user.name                    
         - order.order_items.each_with_index do |oi, i|
           tr.order-item
             td.clearfix
@@ -42,7 +43,7 @@
                 .text-danger= oi.sku.prop_to_text
             td.text-center= oi.product.clearing_price           
             td.text-center= oi.quantity
-            td.text-center= oi.sku.weight
+            td.text-center= oi.sku.weight.to_f * oi.quantity
             - if i.zero?
               td.text-center rowspan="#{order.order_items.count}"= order.amount   
             - if i.zero?
@@ -54,41 +55,44 @@
             - if i.zero?
               td.text-center rowspan="#{order.order_items.count}"
                 .text-muted= order.readable_status
-                - if order.status == 'outbound'
-                  - outbound_id = Outbound.find_by(order_id: order.id).try(:id)
-                  .text-primary.mt-5: a.orderDetail href="#this" outbound_id="#{outbound_id}" 物流详情
+                - if @inbound_finish
+                  - if order.status == 'outbound'
+                    - outbound_id = Outbound.find_by(order_id: order.id).try(:id)
+                    .text-primary.mt-5: a.orderDetail href="#this" outbound_id="#{outbound_id}" 物流详情
 
-                - if order.status == 'paid'
-                  .operation.mt-5 onclick="App.Orders.checkPrepareProducts('#{order.id}', this)"
-                    button.btn.btn-primary.btn-xs
-                      i.fa.fa-refresh                      
-                      span.ml-5 检查备货 
-                - elsif order.status == 'freight'
-                  .operation.mt-5 onclick="App.Orders.notifyCarriage('#{order.id}', this)"
-                    button.btn.btn-primary.btn-xs
-                      i.fa.fa-cny
-                      span.ml-5 催缴运费     
-                  .operation.mt-5 onclick="App.Orders.delivery('#{order.id}', this)"
-                    button.btn.btn-danger.btn-xs
-                      i.fa.fa-send
-                      span.ml-5 出库  
-                - elsif order.status == 'freight_paid'
-                  .operation.mt-5 onclick="App.Orders.delivery('#{order.id}', this)"
-                    button.btn.btn-danger.btn-xs
-                      i.fa.fa-send
-                      span.ml-5 出库  
-                - elsif order.status == 'outbound'
-                  .operation.info.mt-5
-                    i.fa.fa-plane
-                    span.ml-5 飞往中国       
-                - outbound = Outbound.find_by(order_id: order.id)
-                - if outbound.try(:has_tax)
-                  .operation.mt-5 onclick="App.Orders.notifyTax('#{order.id}, this')"
-                    button.btn.btn-primary.btn-xs
-                      i.fa.fa-cny
-                      span.ml-5 
-                        | 催缴关税                
-                        = "(#{outbound.tax}元)"
+                  - if order.status == 'paid'
+                    .operation.mt-5 onclick="App.Orders.checkPrepareProducts('#{order.id}', this)"
+                      button.btn.btn-primary.btn-xs
+                        i.fa.fa-refresh                      
+                        span.ml-5 检查备货 
+                  - elsif order.status == 'freight'
+                    .operation.mt-5 onclick="App.Orders.notifyCarriage('#{order.id}', this)"
+                      button.btn.btn-primary.btn-xs
+                        i.fa.fa-cny
+                        span.ml-5 催缴运费     
+                    .operation.mt-5 onclick="App.Orders.delivery('#{order.id}', this)"
+                      button.btn.btn-danger.btn-xs
+                        i.fa.fa-send
+                        span.ml-5 出库  
+                  - elsif order.status == 'freight_paid'
+                    .operation.mt-5 onclick="App.Orders.delivery('#{order.id}', this)"
+                      button.btn.btn-danger.btn-xs
+                        i.fa.fa-send
+                        span.ml-5 出库  
+                  - elsif order.status == 'outbound'
+                    .operation.info.mt-5
+                      i.fa.fa-plane
+                      span.ml-5 飞往中国       
+                  - outbound = Outbound.find_by(order_id: order.id)
+                  - if outbound.try(:has_tax)
+                    .operation.mt-5 onclick="App.Orders.notifyTax('#{order.id}, this')"
+                      button.btn.btn-primary.btn-xs
+                        i.fa.fa-cny
+                        span.ml-5 
+                          | 催缴关税                
+                          = "(#{outbound.tax}元)"
+                - else
+                  .text-danger.large: 入库尚未完成
 
         tr.remark.active
           td.clearfix colspan="8"            

@@ -5,6 +5,21 @@ class Outbound < ActiveRecord::Base
   belongs_to :order
 
   before_create :g_channel_outbound_no
+
+  OUTBOUND_STATE = {
+    :init => '新建',
+    :packaging_finished => '打包完成',
+    :packaging_exception => '打包异常',
+    :ready_for_bag => '准备装邮袋',
+    :in_bag => '装进邮袋',
+    :departed => '飞往中国',
+    :arrived => '到达中国',
+    :customs_clearance => '清关中',
+    :customs_clearance_failed => '清关异常',
+    :express_sent => '发送国内快递'
+  }
+
+
   def g_channel_outbound_no
     self.channel_outbound_no = UszcnUtils.g_outbound_no!
   end  
@@ -27,6 +42,17 @@ class Outbound < ActiveRecord::Base
       )
     )
     client.sendPush(payload)     	
+  end
+
+  #TODO
+  def self.format_outbound_state item_list
+    return '此订单库房还未操作' if item_list.blank?
+    s = ["当前订单共打了#{item_list.size}个包裹"]
+    item_list.each do |i|
+      s << "国内快递单号:" + i['express_tracking_number'] if !i['express_tracking_number'].blank?
+      s << OUTBOUND_STATE[ i['state'].downcase.to_sym ]
+    end
+    s.join('</br>')
   end
 
 end

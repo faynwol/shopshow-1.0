@@ -14,8 +14,7 @@ class Delivery::OutboundsController < Delivery::ApplicationController
         raise '出库出错!' if ob.notify_uszcn!.blank?
         
         success = true
-      rescue => e
-        raise e
+      rescue => e        
         success = false
         raise ActiveRecord::Rollback        
       end
@@ -25,22 +24,24 @@ class Delivery::OutboundsController < Delivery::ApplicationController
   end
 
   def query
-    outbound = Outbound.find_by id: params[:id]
-    if outbound.outbound_no.blank?
-      ret = outbound.query_shopshow_outbound    
-      if ret["success"]
-        order = Order.find_by id: outbound.order_id
-        ActiveRecord::Base.transaction do 
-          if !ret["data"]["outbound_code"].blank?
-            order.update_attributes! status: 'outbound'
-          end
-          outbound.update_attributes! outbound_no: ret["data"]["outbound_code"]
-          render html: "出库单号:#{ret["data"]["outbound_code"]},  请到转运中国官网查询详细信息!"
+    outbound = Outbound.find_by id: params[:id]    
+    ret = outbound.query_shopshow_outbound    
+
+    Rails.logger.info ret.inspect
+    Rails.logger.info "***********************"        
+    if ret["success"]
+      order = Order.find_by id: outbound.order_id
+      ActiveRecord::Base.transaction do 
+        if !ret["data"]["outbound_code"].blank?
+          order.update_attributes! status: 'outbound'
         end
-      end  
+        outbound.update_attributes! outbound_no: ret["data"]["outbound_code"]
+        render html: Outbound.format_outbound_state(ret["data"]["item_list"])
+      end
     else
-      render html: "出库单号:#{outbound.outbound_no},  请到转运中国官网查询详细信息!"
-    end
+      render html: "订单出库异常！请联系技术人员!"
+    end  
+
           
   end
 
