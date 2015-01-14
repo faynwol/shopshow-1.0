@@ -131,4 +131,34 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def outbound_msg
+    outbound = Outbound.where(order_id: self.id).first
+    if outbound.present?
+      ret = outbound.query_shopshow_outbound    
+      item_list = ret["data"]["item_list"]
+      
+      if ret["success"]        
+        ActiveRecord::Base.transaction do 
+          if !ret["data"]["outbound_code"].blank?
+            self.update_attributes! status: 'outbound'
+          end
+          outbound.update_attributes! outbound_no: ret["data"]["outbound_code"]
+
+          return {status: '未出库', package_num: 0, tracking_num: []} if item_list.blank?
+          
+          tracking_num = []          
+          item_list.each do |i|
+            tracking_num << i['express_tracking_number'] if !i['express_tracking_number'].blank?            
+          end          
+
+          return {status: '已出库', package_num: item_list.size, tracking_num: tracking_num}  
+        end
+      else
+        return {status: '出库异常，请联系工作人员!', package_num: 0, tracking_num: []}
+      end        
+    else
+      return {status: '未出库', package_num: 0, tracking_num: []}
+    end
+  end
+
 end
