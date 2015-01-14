@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
 
   # 重新生成 Private Token
   def update_private_token
-    random_key = "#{SecureRandom.hex(10)}__#{self.id}"
+    random_key = "#{SecureRandom.hex(10)}_#{self.id}"
     self.update_attribute(:private_token, random_key)
   end
 
