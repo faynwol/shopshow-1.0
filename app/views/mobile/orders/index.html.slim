@@ -2,7 +2,7 @@
   .panel-heading.clearfix
     .pull-left
       i.fa.fa-shopping-cart
-      span.ml-5= @live_show.subject.truncate(18)
+      span.ml-5= "订单数量"
     .pull-right.order-count
       span.label.label-danger= @orders.count
   ul.list-group
@@ -10,12 +10,13 @@
       li.list-group-item
         .order-title.clearfix
           .pull-left
+            a name=order.id
             i.fa.fa-file-text-o
             span.ml-5 订单号码
             span.ml-5= order.id.upcase
           .pull-right.order-amount
             i.fa.fa-rmb
-            span.ml-2= order.amount
+            span.ml-2= order.amount+order.shipmentfee.to_i
         .items
           - order.order_items.each do |item|
             - product = item.product
@@ -31,10 +32,21 @@
                   span.ml-2.rmb= product.clearing_price
                 .text-muted
                   span= "x #{item.quantity}"
-
-        - if order.cancelable?
+            -if order.could_show_shipmentfee?
+              .item.clearfix
+                .pull-left.ml-10.info 运费
+                .pull-right.price
+                  .text
+                    i.fa.fa-rmb 
+                    span.ml-2.rmb= order.shipmentfee
+        - if order.cancel? || order.live_show.shut_down?
           .pay
-            a.btn.btn-warning.payOrder href="sbtn://pay/#{order.id}"
+            a.btn.btn-default disabled=true
+              i.fa.fa-trash-o
+              span.ml-5 已取消
+        - elsif order.cancelable?
+          .pay
+            a.btn.btn-warning.payOrder href="sbtn://pay/#{order.amount}/goods/#{order.id}"
               i.fa.fa-rmb 
               span.ml-2= order.amount
               span.ml-5 去支付
@@ -44,10 +56,24 @@
         - elsif order.paid?
           .pay
             a.btn.btn-success disabled=true
-              i.fa.fa-check
-              span.ml-5 已支付          
-        - elsif order.cancel?
+              i.fa.fa-check 
+              span.ml-5 等待入库            
+        - elsif order.freight?
           .pay
-            a.btn.btn-default disabled=true
-              i.fa.fa-trash-o
-              span.ml-5 已取消  
+            a.btn.btn-warning.payOrder href="sbtn://pay/#{order.shipmentfee}/shipmentfee/#{order.id}"
+              i.fa.fa-rmb 
+              span.ml-2= order.shipmentfee
+              span.ml-5 支付运费
+        - elsif order.freight_paid?
+          .pay
+            a.btn.btn-success disabled=true
+              i.fa.fa-check
+              span.ml-5 等待出库
+        - elsif order.trackable?
+          .pay
+            a.btn.btn-success disabled=true
+              i.fa.fa-check
+              span.ml-5 已经出库
+            a.btn.btn-default.ml-10 href="sbtn://track/#{order.id}"
+              span.ml-5 查看物流
+

@@ -16,11 +16,12 @@ module UszcnUtils
   # 一些静态方法
   class << self
     def host
-      host = if Rails.env.production?
-        "http://cn.uszcn.com"
-      else
-        "http://cn.uszcn.local:3000"
-      end
+      #host = if Rails.env.production?
+      #  "http://cn.uszcn.com"
+      #else
+      #  "http://cn.uszcn.local:3000"
+      #end
+      host = "http://cn.uszcn.com"
       "#{host}/shopshow_api"      
     end
 
@@ -80,7 +81,8 @@ module UszcnUtils
       begin
         run_request INBOUND_PATH, params
       rescue Exception => e
-        ExceptionNotifier.notify_exception e, env: request.env, data: { message: "通知入库失败" }        
+        raise e
+        #ExceptionNotifier.notify_exception e, env: request.env, data: { message: "通知入库失败" }        
         self.update_attribute :status, "failed"
         {}
       end
@@ -165,7 +167,8 @@ module UszcnUtils
 
 
     def query_shopshow_outbound
-      content = { sc_code: self.channel_outbound_no }.to_json
+      #content = { sc_code: self.channel_outbound_no }.to_json
+      content = { sc_code: 'SC15010800027' }.to_json
       response = run_request QUERY_OUTBOUND_PATH, content
       # d = digest content
       # ret = RestClient.post "#{Inbound.notify_host}/query_uszcn_outbound", {data_digest: d, content: content }    

@@ -31,23 +31,32 @@ class Order < ActiveRecord::Base
   # end
 
   def pay!(gateway = :balance)
-    if (rest = user.balance - amount) < 0
-      raise UserBalance::Not_Enough_Balance
-    end
+    #if (rest = user.balance - amount) < 0
+    #  raise UserBalance::Not_Enough_Balance
+    #end
 
-    balance = user.user_balance.update_attributes!(balance: rest)
-    history = user.user_balance.histories.build
-    history.user_id = user_id
-    history.amount = amount
-    history.history_type = 'consume'
-    history.reason = "PAID"
-    history.save!
+    #balance = user.user_balance.update_attributes!(balance: rest)
+    #history = user.user_balance.histories.build
+    #history.user_id = user_id
+    #history.amount = amount
+    #history.history_type = 'consume'
+    #history.reason = "PAID"
+    #history.save!
     paid!
   end
 
   def cancelable?
     %w(pending failed).include? status
   end
+
+  def could_show_shipmentfee?
+    %w(freight_paid outbound transit_cn tax tax_paid express arrived finish).include? status
+  end
+
+  def trackable?
+    %w(outbound transit_cn tax tax_paid express arrived finish).include? status
+  end
+
 
   def carriage
     ws = 0

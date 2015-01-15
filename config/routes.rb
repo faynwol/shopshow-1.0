@@ -31,7 +31,9 @@ Rails.application.routes.draw do
       get :confirm, to: 'shopping_cart#confirm'
     end
 
-    resources :orders
+    get :orders, to: 'orders#index'
+    post :orders, to: 'orders#index'
+    
   end  
 
   scope :jabber do

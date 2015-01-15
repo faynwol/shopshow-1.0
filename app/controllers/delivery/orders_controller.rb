@@ -22,8 +22,10 @@ class Delivery::OrdersController < Delivery::ApplicationController
       a = inbounded_lists[oi.sku_id.to_i].blank? ? 0 : inbounded_lists[oi.sku_id.to_i][:inbounded_quantity]
       render text: {abundant: false}.to_json and return if a < oi.quantity
     end
-
+    shipmentfee = @order.carriage.to_i
     @order.update_attribute(:status, 'freight')
+    @order.shipmentfee = shipmentfee
+    @order.save!
     render text: {abundant: true}.to_json
   end
 
