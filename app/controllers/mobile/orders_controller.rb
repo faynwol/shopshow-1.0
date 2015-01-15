@@ -1,7 +1,7 @@
 class Mobile::OrdersController < Mobile::AppController
   before_action :find_user
   before_action :find_live_show
-  skip_before_filter :verify_authenticity_token , only: [:index,:handle_alipay_notify]
+  skip_before_filter :verify_authenticity_token , only: [:index,:handle_alipay_notify,:outbound_msg]
   def index
     if request.post?
       verify_alipay_and_pay_order
@@ -62,15 +62,16 @@ class Mobile::OrdersController < Mobile::AppController
     end
 
   end
-end
-
+  
   def outbound_msg
     begin
       order = Order.find params[:order_id]
+      puts order.inspect
+      puts "****"
       render json: order.outbound_msg
     rescue => e
-      render json: {status: '出错了哈，别乱搞！'}
+      puts e.inspect
+      render json: {status: '查询物流失败，请联系店小二'}
     end
   end
-
-end
+end 
