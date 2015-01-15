@@ -63,3 +63,14 @@ class Mobile::OrdersController < Mobile::AppController
 
   end
 end
+
+  def outbound_msg
+    begin
+      order = Order.find params[:order_id]
+      render json: order.outbound_msg
+    rescue => e
+      render json: {status: '出错了哈，别乱搞！'}
+    end
+  end
+
+end

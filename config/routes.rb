@@ -30,10 +30,14 @@ Rails.application.routes.draw do
       post :remove_selected, to: 'shopping_cart#remove_selected'
       get :confirm, to: 'shopping_cart#confirm'
     end
-
     get :orders, to: 'orders#index'
     post :orders, to: 'orders#index'
     
+    resources :orders do 
+      post :outbound_msg
+    end
+
+
   end  
 
   scope :jabber do
