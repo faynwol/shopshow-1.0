@@ -31,7 +31,11 @@ Rails.application.routes.draw do
       get :confirm, to: 'shopping_cart#confirm'
     end
 
-    resources :orders
+    resources :orders do 
+      post :outbound_msg
+    end
+
+
   end  
 
   scope :jabber do
