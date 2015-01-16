@@ -36,10 +36,11 @@ Rails.application.routes.draw do
     resources :orders do 
       post :outbound_msg
     end
-
+    
 
   end  
-
+  post '/mobile/orders/handle_alipay_notify' => 'mobile/orders#handle_alipay_notify'
+  
   scope :jabber do
     post :prebind, to: 'jabber#prebind'
   end
