@@ -40,11 +40,9 @@ class Mobile::OrdersController < Mobile::AppController
     #openssl验证签名
     openssl_public.verify(digest, Base64.decode64(signed_string), for_sign_string)
   end
-  def handle_alipay_notify
-    Rails.logger.info(request.body.inspect)
-    Rails.logger.info(request.body.class)
-    Rails.logger.info(request.body.methods)
-    Rails.logger.info("handle_alipay_notify:"+request.body.string)
+  def handle_alipay_notify      
+    Rails.logger.info(request.body.read)
+    Rails.logger.info("handle_alipay_notify:"+request.body.read)
     in_hash         = para_filter request.POST    #sort_hash       = in_hash.sort
     for_sign_string = create_link_string(in_hash,true)
     sign = params[:sign]
@@ -76,7 +74,7 @@ class Mobile::OrdersController < Mobile::AppController
     render :text=>'success'
   end
   def verify_alipay_and_pay_order
-        request_body = Base64.decode64(request.body.string)
+        request_body = Base64.decode64(request.body.read)
       order_id = params[:order_id]
       p "==============================================================>"
       p request_body
