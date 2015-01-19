@@ -32,13 +32,13 @@
                   span.ml-2.rmb= product.clearing_price
                 .text-muted
                   span= "x #{item.quantity}"
-            -if order.could_show_shipmentfee?
-              .item.clearfix
-                .pull-left.ml-10.info 运费
-                .pull-right.price
-                  .text
-                    i.fa.fa-rmb 
-                    span.ml-2.rmb= order.shipmentfee
+          -if order.could_show_shipmentfee?
+            .item.clearfix
+              .pull-left.ml-10.info 运费
+              .pull-right.price
+                .text
+                  i.fa.fa-rmb 
+                  span.ml-2.rmb= order.shipmentfee
         - if order.cancel? || (order.cancelable? && order.live_show.shut_down?)
           .pay
             a.btn.btn-default disabled=true
