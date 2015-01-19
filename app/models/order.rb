@@ -86,7 +86,8 @@ class Order < ActiveRecord::Base
      notification: JPush::Notification.build(
         alert: nil,
         ios: JPush::IOSNotification.build(
-          alert: "您的订单编号为#{self.id}的订单需要缴纳运费#{self.carriage.to_f}元,请尽快缴费!",          
+          #alert: "您的订单编号为#{self.id}的订单需要缴纳运费#{self.carriage.to_f}元,请尽快缴费!",          
+          alert: "您有一笔订单需要支付运费,点击查看！",          
           badge: 0,
           sound: "happy"
         )

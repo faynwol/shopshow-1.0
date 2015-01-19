@@ -168,7 +168,6 @@ module UszcnUtils
 
     def query_shopshow_outbound
       content = { sc_code: self.channel_outbound_no }.to_json
-      #content  = { sc_code: 'SC14120800001' }.to_json
       response = run_request QUERY_OUTBOUND_PATH, content
       # d = digest content
       # ret = RestClient.post "#{Inbound.notify_host}/query_uszcn_outbound", {data_digest: d, content: content }    

@@ -47,7 +47,7 @@ module Shopshow
 
       if user = User.auth(params[:email], params[:password])
         user.ensure_private_token!
-        current_user = user
+        self.current_user = user
         record_device
         present user, with: APIEntities::User, with_private_token: :yes
       else
