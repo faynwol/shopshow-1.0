@@ -39,7 +39,7 @@
                   .text
                     i.fa.fa-rmb 
                     span.ml-2.rmb= order.shipmentfee
-        - if order.cancel? || order.live_show.shut_down?
+        - if order.cancel? || (order.cancelable? && order.live_show.shut_down?)
           .pay
             a.btn.btn-default disabled=true
               i.fa.fa-trash-o
