@@ -10,7 +10,7 @@ module Shopshow
     format :json
     content_type :json, 'application/json;charset=utf-8'
 
-    CURRENT_CLIENT_VERSION = '1.0.8'
+    CURRENT_CLIENT_VERSION = '1.0.9'
 
     rescue_from ActiveRecord::RecordNotFound  do |e|
       Rack::Response.new({ data: nil, error: e.message }.to_json, 404).finish
