@@ -41,6 +41,9 @@ class Mobile::OrdersController < Mobile::AppController
     openssl_public.verify(digest, Base64.decode64(signed_string), for_sign_string)
   end
   def handle_alipay_notify
+    Rails.logger.info(request.body.inspect)
+    Rails.logger.info(request.body.class)
+    Rails.logger.info(request.body.methods)
     Rails.logger.info("handle_alipay_notify:"+request.body.string)
     in_hash         = para_filter request.POST    #sort_hash       = in_hash.sort
     for_sign_string = create_link_string(in_hash,true)
