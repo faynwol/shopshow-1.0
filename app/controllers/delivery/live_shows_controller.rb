@@ -63,10 +63,21 @@ class Delivery::LiveShowsController < Delivery::ApplicationController
     
   end
 
+  #===========================>
+  #直播室预展页面
   def preview_page
     @products = LiveShow.where(subject: 'Costco Beta test Show 12/2014').first.products    
     render layout: false
   end
+
+  def fresh_page
+    @products = LiveShow.where(subject: 'Sephora 丝芙兰 Fresh专场').first.products    
+    render layout: false    
+  end
+
+  #============================>
+
+  def
 
   private
 

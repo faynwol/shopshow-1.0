@@ -90,6 +90,8 @@ Rails.application.routes.draw do
   end
 
   get 'costco' => 'delivery/live_shows#preview_page'  
+  get 'fresh' => 'delivery/live_shows#fresh_page'
+    
   # 运维后台
   namespace :cpanel do
     root to: 'live_shows#index'
