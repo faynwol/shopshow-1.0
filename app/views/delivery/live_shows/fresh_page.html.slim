@@ -16,7 +16,7 @@ html xmlns="http://www.w3.org/1999/xhtml"
       .product_name_box p{margin: 0px;padding: 0px 10px 10px 10px;font-size: 16px;color: #ff4e00;}
         
     .banner
-      = image_tag "fresh/head.jpg"    
+      = image_tag "fresh/head.png"    
     - @products.each do |p|
       .product_box
         = image_tag p.cover.resource_url, size: '150x150'
