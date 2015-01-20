@@ -1,7 +1,7 @@
 class Delivery::LiveShowsController < Delivery::ApplicationController  
 
 	before_action :find_live_show, except: [:index, :new, :create, :upload_preview, :preview_page]
-  before_action :admin_required, except: [:preview_page] 
+  before_action :admin_required, except: [:preview_page, :fresh_page] 
 
 
   def index
