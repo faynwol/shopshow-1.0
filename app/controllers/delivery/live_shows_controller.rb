@@ -77,8 +77,6 @@ class Delivery::LiveShowsController < Delivery::ApplicationController
 
   #============================>
 
-  def
-
   private
 
   def live_show_params
