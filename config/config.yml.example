@@ -15,8 +15,8 @@ defaults: &defaults
     - "a@a.com"
 
   #jpush_config
-  app_key: '48094d32b0520bf0631824f6'
-  master_secret: 'eb541758a713c2c280ab1af3' 
+  app_key: 'xxxxxxxxxxxxxxxxxxxxxxxx'
+  master_secret: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx' 
 
 development:
   <<: *defaults 
